@@ -1,6 +1,6 @@
 ﻿namespace Avangardum.LifeArena.Server.Interfaces;
 
-public interface IGameModel
+public interface ICoreGameModel
 {
     bool[,] LivingCells { get; }
     int Generation { get; }

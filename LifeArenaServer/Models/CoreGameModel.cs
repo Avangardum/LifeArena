@@ -2,12 +2,12 @@
 
 namespace Avangardum.LifeArena.Server.Models;
 
-public class GameModel : IGameModel
+public class CoreGameModel : ICoreGameModel
 {
     private bool[,] _livingCells;
     private FieldWrapAroundMode _fieldWrapAroundMode;
     
-    public GameModel(bool[,] livingCells, int generation, FieldWrapAroundMode fieldWrapAroundMode)
+    public CoreGameModel(bool[,] livingCells, int generation, FieldWrapAroundMode fieldWrapAroundMode)
     {
         _livingCells = livingCells;
         Generation = generation;

@@ -1,3 +1,5 @@
+using Avangardum.LifeArena.Server.Settings;
+
 var builder = WebApplication.CreateBuilder(args);
 ConfigureServices();
 var app = builder.Build();
@@ -6,10 +8,19 @@ app.Run();
 
 void ConfigureServices()
 {
-    builder.Services.AddControllers();
+    var services = builder.Services;
+    services.AddControllers();
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-    builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen();
+    services.AddEndpointsApiExplorer();
+    services.AddSwaggerGen();
+    ConfigureSettings();
+
+    void ConfigureSettings()
+    {
+        var configuration = builder.Configuration;
+        services.Configure<CoreGameModelSettings>(configuration.GetSection("CoreGameModel"));
+        services.Configure<GameServiceSettings>(configuration.GetSection("GameService"));
+    }
 }
 
 void ConfigureMiddlewarePipeline()
