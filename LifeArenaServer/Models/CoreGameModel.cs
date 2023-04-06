@@ -5,7 +5,7 @@ namespace Avangardum.LifeArena.Server.Models;
 public class CoreGameModel : ICoreGameModel
 {
     private bool[,] _livingCells;
-    private FieldWrapAroundMode _fieldWrapAroundMode;
+    private readonly FieldWrapAroundMode _fieldWrapAroundMode;
     
     public CoreGameModel(bool[,] livingCells, int generation, FieldWrapAroundMode fieldWrapAroundMode)
     {
@@ -89,6 +89,7 @@ public class CoreGameModel : ICoreGameModel
                 {
                     continue;
                 }
+                
                 if (_livingCells[neighbourX, neighbourY])
                 {
                     livingNeighbourCount++;
