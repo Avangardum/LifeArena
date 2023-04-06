@@ -2,6 +2,6 @@
 
 public class GameServiceSettings
 {
-    public int MaxCellsPerPlayerPerTurn { get; set; }
+    public int MaxCellsPerPlayerPerGeneration { get; set; }
     public TimeSpan NextGenerationInterval { get; set; }
 }
