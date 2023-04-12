@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LifeArenaServer", "LifeArenaServer\LifeArenaServer.csproj", "{9116DF1B-4515-4F93-9C5E-42BBCADD163C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LifeArenaServerTests", "LifeArenaServerTests\LifeArenaServerTests.csproj", "{B9F13D64-9460-4C1B-9D72-6A0816D42FA2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LifeArenaServerUnitTests", "LifeArenaServerUnitTests\LifeArenaServerUnitTests.csproj", "{B9F13D64-9460-4C1B-9D72-6A0816D42FA2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LifeArenaServerIntegrationTests", "LifeArenaServerIntegrationTests\LifeArenaServerIntegrationTests.csproj", "{C0887156-9B8F-41CE-A22D-7469762319C0}"
 EndProject

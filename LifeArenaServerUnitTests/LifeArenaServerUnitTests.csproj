@@ -7,7 +7,9 @@
 
         <IsPackable>false</IsPackable>
 
-        <RootNamespace>Avangardum.LifeArena.Server.Tests</RootNamespace>
+        <RootNamespace>Avangardum.LifeArena.Server.UnitTests</RootNamespace>
+
+        <AssemblyName>LifeArenaServerUnitTests</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>

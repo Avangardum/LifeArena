@@ -1,9 +1,9 @@
 ﻿using Avangardum.LifeArena.Server.Controllers;
-using Avangardum.LifeArena.Server.Extensions;
+using Avangardum.LifeArena.Server.Helpers;
 using Avangardum.LifeArena.Server.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Avangardum.LifeArena.Server.Tests;
+namespace Avangardum.LifeArena.Server.UnitTests;
 
 [TestFixture]
 public class GameControllerTests
