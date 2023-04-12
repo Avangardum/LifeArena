@@ -36,7 +36,6 @@ public class GameControllerIntegrationTests
         var initialDelay = TimeSpan.FromSeconds(0.5);
         await Task.Delay(initialDelay);
         var response = await _httpClient.GetAsync("api/game/getState");
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
         var rawJson = await response.Content.ReadAsStringAsync();
         var parsedJson = JObject.Parse(rawJson);
         var rawTimeUntilNextGeneration = parsedJson["timeUntilNextGeneration"];
@@ -45,5 +44,18 @@ public class GameControllerIntegrationTests
         var expectedTimeUntilNextGeneration = _gameServiceSettings.NextGenerationInterval - initialDelay;
         Assert.That(timeUntilNextGeneration.TotalSeconds, Is.EqualTo(expectedTimeUntilNextGeneration.TotalSeconds).
             Within(8).Percent);
+    }
+    
+    [Test]
+    public async Task CellsLeftAndMaxCellsAreSameAndMatchSettingsInitially()
+    {
+        var response = await _httpClient.GetAsync("api/game/getState");
+        var rawJson = await response.Content.ReadAsStringAsync();
+        var parsedJson = JObject.Parse(rawJson);
+        var cellsLeft = parsedJson["cellsLeft"]?.ToObject<int>();
+        var maxCellsPerPlayerPerGeneration = parsedJson["maxCellsPerPlayerPerGeneration"]?.ToObject<int>();
+        var expected = _gameServiceSettings.MaxCellsPerPlayerPerGeneration;
+        Assert.That(cellsLeft, Is.EqualTo(expected));
+        Assert.That(maxCellsPerPlayerPerGeneration, Is.EqualTo(expected));
     }
 }

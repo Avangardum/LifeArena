@@ -61,6 +61,6 @@ public class GameControllerTests
         Assert.That(actualResponse.Generation, Is.EqualTo(expectedResponse.Generation));
         Assert.That(actualResponse.TimeUntilNextGeneration, Is.EqualTo(expectedResponse.TimeUntilNextGeneration));
         Assert.That(actualResponse.CellsLeft, Is.EqualTo(expectedResponse.CellsLeft));
-        Assert.That(actualResponse.MaxCellsPerPlayerPerTurn, Is.EqualTo(expectedResponse.MaxCellsPerPlayerPerTurn));
+        Assert.That(actualResponse.MaxCellsPerPlayerPerGeneration, Is.EqualTo(expectedResponse.MaxCellsPerPlayerPerGeneration));
     }
 }
