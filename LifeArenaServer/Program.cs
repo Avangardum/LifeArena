@@ -35,6 +35,7 @@ void ConfigureServices()
         services.AddSingleton<IGameService, GameService>();
         services.AddSingleton<IUserIdProvider, IpAddressUserIdProvider>();
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+        services.AddSingleton<ILivingCellsArrayPreserializer, LivingCellsArrayPreserializer>();
     }
 }
 

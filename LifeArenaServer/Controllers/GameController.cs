@@ -1,5 +1,4 @@
-﻿using Avangardum.LifeArena.Server.Helpers;
-using Avangardum.LifeArena.Server.Interfaces;
+﻿using Avangardum.LifeArena.Server.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Avangardum.LifeArena.Server.Controllers;
@@ -8,18 +7,22 @@ public class GameController : ApiController
 {
     private IGameService _gameService;
     private IUserIdProvider _userIdProvider;
+    private ILivingCellsArrayPreserializer _livingCellsArrayPreserializer;
 
-    public GameController(IGameService gameService, IUserIdProvider userIdProvider)
+    public GameController(IGameService gameService, IUserIdProvider userIdProvider, 
+        ILivingCellsArrayPreserializer livingCellsArrayPreserializer)
     {
         _gameService = gameService;
         _userIdProvider = userIdProvider;
+        _livingCellsArrayPreserializer = livingCellsArrayPreserializer;
     }
 
     [HttpGet]
     public IActionResult GetState()
     {
         var playerId = _userIdProvider.UserId;
-        var response = new GameStateResponse(_gameService.LivingCells.ToListOfLists(), _gameService.Generation, 
+        var preserializedLivingCells = _livingCellsArrayPreserializer.Preserialize(_gameService.LivingCells);
+        var response = new GameStateResponse(preserializedLivingCells, _gameService.Generation, 
             _gameService.TimeUntilNextGeneration, _gameService.GetCellsLeftForPlayer(playerId), 
             _gameService.MaxCellsPerPlayerPerTurn);
         return new OkObjectResult(response);

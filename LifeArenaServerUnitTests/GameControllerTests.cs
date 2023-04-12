@@ -39,6 +39,7 @@ public class GameControllerTests
     private MockGameService _gameService;
     private MockUserIdProvider _userIdProvider;
     private GameController _gameController;
+    private ILivingCellsArrayPreserializer _livingCellsArrayPreserializer;
     #pragma warning restore CS8618
     
     [SetUp]
@@ -46,18 +47,20 @@ public class GameControllerTests
     {
         _gameService = new MockGameService();
         _userIdProvider = new MockUserIdProvider();
-        _gameController = new GameController(_gameService, _userIdProvider);
+        _livingCellsArrayPreserializer = new LivingCellsArrayPreserializer();
+        _gameController = new GameController(_gameService, _userIdProvider, _livingCellsArrayPreserializer);
     }
 
     [Test]
     public void GetGameStateReturnsGameStateResponseWithDataFromGameService([Values(Player1Id, Player2Id)] string playerId)
     {
-        var expectedResponse = new GameStateResponse(_gameService.LivingCells.ToListOfLists(), _gameService.Generation, 
+        var preserializedLivingCells = _livingCellsArrayPreserializer.Preserialize(_gameService.LivingCells);
+        var expectedResponse = new GameStateResponse(preserializedLivingCells, _gameService.Generation, 
             _gameService.TimeUntilNextGeneration, _gameService.GetCellsLeftForPlayer(playerId), _gameService.MaxCellsPerPlayerPerTurn);
         _userIdProvider.UserId = playerId;
         var actualResponse = (_gameController.GetState() as OkObjectResult)?.Value as GameStateResponse;
         Assert.That(actualResponse, Is.Not.Null);
-        Assert.That(actualResponse!.LivingCells, Is.EqualTo(expectedResponse.LivingCells));
+        Assert.That(actualResponse!.PreserializedLivingCells, Is.EqualTo(expectedResponse.PreserializedLivingCells));
         Assert.That(actualResponse.Generation, Is.EqualTo(expectedResponse.Generation));
         Assert.That(actualResponse.TimeUntilNextGeneration, Is.EqualTo(expectedResponse.TimeUntilNextGeneration));
         Assert.That(actualResponse.CellsLeft, Is.EqualTo(expectedResponse.CellsLeft));
