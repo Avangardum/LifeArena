@@ -1,4 +1,4 @@
 ﻿namespace Avangardum.LifeArena.Server.Controllers;
 
-public record GameStateResponse(object PreserializedLivingCells, int Generation, TimeSpan TimeUntilNextGeneration, 
+public record GameStateResponse(object LivingCells, int Generation, TimeSpan TimeUntilNextGeneration, 
     int CellsLeft, int MaxCellsPerPlayerPerGeneration);

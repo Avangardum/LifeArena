@@ -27,4 +27,19 @@ public class GameController : ApiController
             _gameService.MaxCellsPerPlayerPerTurn);
         return new OkObjectResult(response);
     }
+
+    [HttpPut]
+    public IActionResult AddCell(int x, int y)
+    {
+        var playerId = _userIdProvider.UserId;
+        try
+        {
+            _gameService.AddCell(x, y, playerId);
+            return GetState();
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest();
+        }
+    }
 }

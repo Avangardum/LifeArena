@@ -5,8 +5,8 @@ namespace Avangardum.LifeArena.Server.Helpers;
 
 public class LivingCellsArrayPreserializer : ILivingCellsArrayPreserializer
 {
-    const char LivingCellChar = '1';
-    const char DeadCellChar = '0';
+    const char LivingCellChar = '0';
+    const char DeadCellChar = '.';
     
     public object Preserialize(bool[,] livingCells)
     {

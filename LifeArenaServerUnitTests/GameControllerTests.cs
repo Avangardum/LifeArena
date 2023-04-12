@@ -10,15 +10,23 @@ public class GameControllerTests
 {
     private class MockGameService : IGameService
     {
+        public MockGameService()
+        {
+            LivingCells = new bool[2, 2];
+            LivingCells[0, 0] = true;
+        }
+        
         public event EventHandler? GenerationChanged;
-        public bool[,] LivingCells => new[,] { { true, false }, { false, true } };
+        public bool[,] LivingCells { get; }
         public int Generation => 42;
         public int MaxCellsPerPlayerPerTurn => 10;
         public TimeSpan TimeUntilNextGeneration => TimeSpan.FromSeconds(5);
+        public Exception? AddCellException { get; set; }
         
         public void AddCell(int x, int y, string playerId)
         {
-            throw new NotImplementedException();
+            if (AddCellException != null) throw AddCellException;
+            LivingCells[x, y] = true;
         }
 
         public int GetCellsLeftForPlayer(string playerId)
@@ -60,10 +68,33 @@ public class GameControllerTests
         _userIdProvider.UserId = playerId;
         var actualResponse = (_gameController.GetState() as OkObjectResult)?.Value as GameStateResponse;
         Assert.That(actualResponse, Is.Not.Null);
-        Assert.That(actualResponse!.PreserializedLivingCells, Is.EqualTo(expectedResponse.PreserializedLivingCells));
+        Assert.That(actualResponse!.LivingCells, Is.EqualTo(expectedResponse.LivingCells));
         Assert.That(actualResponse.Generation, Is.EqualTo(expectedResponse.Generation));
         Assert.That(actualResponse.TimeUntilNextGeneration, Is.EqualTo(expectedResponse.TimeUntilNextGeneration));
         Assert.That(actualResponse.CellsLeft, Is.EqualTo(expectedResponse.CellsLeft));
         Assert.That(actualResponse.MaxCellsPerPlayerPerGeneration, Is.EqualTo(expectedResponse.MaxCellsPerPlayerPerGeneration));
+    }
+
+    [Test]
+    public void AddCellAddsCellToGameServiceAndReturnsUpdatedState()
+    {
+        _userIdProvider.UserId = Player1Id;
+        var response = (_gameController.AddCell(0, 1) as OkObjectResult)?.Value as GameStateResponse;
+        Assert.That(response, Is.Not.Null);
+        Assert.That(_gameService.LivingCells[0, 0], Is.True);
+        Assert.That(_gameService.LivingCells[0, 1], Is.True);
+        Assert.That(_gameService.LivingCells[1, 0], Is.False);
+        Assert.That(_gameService.LivingCells[1, 1], Is.False);
+        var expectedResponsePreserializedLivingCells = _livingCellsArrayPreserializer.Preserialize(_gameService.LivingCells);
+        Assert.That(response!.LivingCells, Is.EqualTo(expectedResponsePreserializedLivingCells));
+    }
+    
+    [Test]
+    public void AddCellReturnsBadRequestWhenGameServiceAddCellThrowsArgumentException()
+    {
+        _userIdProvider.UserId = Player1Id;
+        _gameService.AddCellException = new ArgumentException();
+        var response = _gameController.AddCell(0, 0);
+        Assert.That(response, Is.TypeOf<BadRequestResult>());
     }
 }
