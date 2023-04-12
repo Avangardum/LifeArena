@@ -8,6 +8,9 @@ namespace Avangardum.LifeArena.Server.UnitTests;
 [TestFixture]
 public class GameServiceTests
 {
+    private const string Player1Id = "John Doe";
+    private const string Player2Id = "Joe Mama";
+    
     private class MockCoreGameModel : ICoreGameModel
     {
         public bool[,] LivingCells { get; set; } = new bool[100, 100];
@@ -18,6 +21,7 @@ public class GameServiceTests
         public void SetCellState(int x, int y, bool isAlive)
         {
             SetCellStateCallHistory.Add(new List<object> { x, y, isAlive });
+            LivingCells[x, y] = isAlive;
         }
 
         public void NextGeneration()
@@ -75,7 +79,7 @@ public class GameServiceTests
     [Test]
     public void AddCellCallsCoreGameModelSetCellState()
     {
-        _gameService.AddCell(5, 7, "John Doe");
+        _gameService.AddCell(5, 7, Player1Id);
         var expectedCallHistory = new List<List<object>>
         {
             new List<object> { 5, 7, true },
@@ -101,19 +105,17 @@ public class GameServiceTests
     {
         // The first player tries to add more cells than allowed, only the allowed number should be added.
         await Task.Delay(_settings.NextGenerationInterval / 2);
-        var player1Id = "John Doe";
         for (int i = 0; i < _settings.MaxCellsPerPlayerPerGeneration * 2; i++)
         {
-            _gameService.AddCell(i, i, player1Id);
+            _gameService.AddCell(i, i, Player1Id);
         }
         Assert.That(_coreGameModel.SetCellStateCallHistory.Count, Is.EqualTo(_settings.MaxCellsPerPlayerPerGeneration));
         
         // The second player tries to add more cells than allowed, only the allowed number should be added. 
         // Now there should be 2x the allowed number of cells.
-        var player2Id = "Joe Mama";
         for (int i = 0; i < _settings.MaxCellsPerPlayerPerGeneration * 2; i++)
         {
-            _gameService.AddCell(i + 1, i + 1, player2Id);
+            _gameService.AddCell(i, i + 1, Player2Id);
         }
         Assert.That(_coreGameModel.SetCellStateCallHistory.Count, Is.EqualTo(_settings.MaxCellsPerPlayerPerGeneration * 2));
         
@@ -122,7 +124,7 @@ public class GameServiceTests
         await Task.Delay(_settings.NextGenerationInterval);
         for (int i = 0; i < _settings.MaxCellsPerPlayerPerGeneration * 2; i++)
         {
-            _gameService.AddCell(i, i, player1Id);
+            _gameService.AddCell(i, i + 2, Player1Id);
         }
         Assert.That(_coreGameModel.SetCellStateCallHistory.Count, Is.EqualTo(_settings.MaxCellsPerPlayerPerGeneration * 3));
     }
@@ -130,10 +132,9 @@ public class GameServiceTests
     [Test]
     public void GetCellsLeftForPlayerReturnsAmountOfCellsLeft()
     {
-        var playerId = "John Doe";
-        Assert.That(_gameService.GetCellsLeftForPlayer(playerId), Is.EqualTo(_settings.MaxCellsPerPlayerPerGeneration));
-        _gameService.AddCell(0, 0, playerId);
-        Assert.That(_gameService.GetCellsLeftForPlayer(playerId), Is.EqualTo(_settings.MaxCellsPerPlayerPerGeneration - 1));
+        Assert.That(_gameService.GetCellsLeftForPlayer(Player1Id), Is.EqualTo(_settings.MaxCellsPerPlayerPerGeneration));
+        _gameService.AddCell(0, 0, Player1Id);
+        Assert.That(_gameService.GetCellsLeftForPlayer(Player1Id), Is.EqualTo(_settings.MaxCellsPerPlayerPerGeneration - 1));
     }
     
     [Test]
@@ -158,5 +159,26 @@ public class GameServiceTests
         Assert.That(wasGenerationChangedEventRaised, Is.False);
         await Task.Delay(_settings.NextGenerationInterval * 0.5);
         Assert.That(wasGenerationChangedEventRaised, Is.True);
+    }
+
+    [Test]
+    public void TryingToAddCellThatIsAlreadyAliveDoesNotDecreaseCellLeft()
+    {
+        _gameService.AddCell(0, 0, Player1Id);
+        _gameService.AddCell(0, 0, Player1Id);
+        Assert.That(_gameService.GetCellsLeftForPlayer(Player1Id), Is.EqualTo(_settings.MaxCellsPerPlayerPerGeneration - 1));
+    }
+    
+    [Test]
+    public void TryingToAddCellOutsideOfGridThrowsException()
+    {
+        Assert.That(() => _gameService.AddCell(-1, 0, Player1Id), 
+            Throws.InstanceOf<ArgumentOutOfRangeException>());
+        Assert.That(() => _gameService.AddCell(0, -1, Player1Id), 
+            Throws.InstanceOf<ArgumentOutOfRangeException>());
+        Assert.That(() => _gameService.AddCell(_gameService.LivingCells.GetLength(0), 0, Player1Id), 
+            Throws.InstanceOf<ArgumentOutOfRangeException>());
+        Assert.That(() => _gameService.AddCell(0, _gameService.LivingCells.GetLength(1), Player1Id), 
+            Throws.InstanceOf<ArgumentOutOfRangeException>());
     }
 }

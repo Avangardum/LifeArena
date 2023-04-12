@@ -27,6 +27,16 @@ public class GameService : IGameService
 
     public void AddCell(int x, int y, string playerId)
     {
+        if (x < 0 || x >= _coreGameModel.LivingCells.GetLength(0) || y < 0 || y >= _coreGameModel.LivingCells.GetLength(1))
+        {
+            throw new ArgumentOutOfRangeException();
+        }
+        
+        if (_coreGameModel.LivingCells[x, y])
+        {
+            return;
+        }
+        
         if (!_cellsPlacedInThisGenerationCountByPlayer.ContainsKey(playerId))
         {
             _cellsPlacedInThisGenerationCountByPlayer[playerId] = 0;
