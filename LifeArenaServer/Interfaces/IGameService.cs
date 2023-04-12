@@ -2,9 +2,13 @@
 
 public interface IGameService
 {
-    public bool[,] LivingCells { get; }
-    public int Generation { get; }
-    public int MaxCellsPerPlayerPerTurn { get; }
+    public event EventHandler GenerationChanged;
     
-    public void AddCell(int x, int y, string playerId);
+    bool[,] LivingCells { get; }
+    int Generation { get; }
+    int MaxCellsPerPlayerPerTurn { get; }
+    TimeSpan TimeUntilNextGeneration { get; }
+    
+    void AddCell(int x, int y, string playerId);
+    int GetCellsLeftForPlayer(string playerId);
 }

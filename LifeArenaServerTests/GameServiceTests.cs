@@ -124,4 +124,37 @@ public class GameServiceTests
         }
         Assert.That(_coreGameModel.SetCellStateCallHistory.Count, Is.EqualTo(_settings.MaxCellsPerPlayerPerGeneration * 3));
     }
+
+    [Test]
+    public void GetCellsLeftForPlayerReturnsAmountOfCellsLeft()
+    {
+        var playerId = "John Doe";
+        Assert.That(_gameService.GetCellsLeftForPlayer(playerId), Is.EqualTo(_settings.MaxCellsPerPlayerPerGeneration));
+        _gameService.AddCell(0, 0, playerId);
+        Assert.That(_gameService.GetCellsLeftForPlayer(playerId), Is.EqualTo(_settings.MaxCellsPerPlayerPerGeneration - 1));
+    }
+    
+    [Test]
+    public async Task TimeUntilNextGenerationReturnsTimeUntilNextGeneration()
+    {
+        Assert.That(_gameService.TimeUntilNextGeneration.TotalSeconds, 
+            Is.EqualTo(_settings.NextGenerationInterval.TotalSeconds).Within(10).Percent);
+        await Task.Delay(_settings.NextGenerationInterval / 2);
+        Assert.That(_gameService.TimeUntilNextGeneration.TotalSeconds, 
+            Is.EqualTo(_settings.NextGenerationInterval.TotalSeconds / 2).Within(10).Percent);
+        await Task.Delay(_settings.NextGenerationInterval);
+        Assert.That(_gameService.TimeUntilNextGeneration.TotalSeconds, 
+            Is.EqualTo(_settings.NextGenerationInterval.TotalSeconds / 2).Within(10).Percent);
+    }
+    
+    [Test]
+    public async Task GenerationChangedEventIsRaisedOnGenerationChange()
+    {
+        var wasGenerationChangedEventRaised = false;
+        _gameService.GenerationChanged += (_, _) => wasGenerationChangedEventRaised = true;
+        await Task.Delay(_settings.NextGenerationInterval * 0.8);
+        Assert.That(wasGenerationChangedEventRaised, Is.False);
+        await Task.Delay(_settings.NextGenerationInterval * 0.5);
+        Assert.That(wasGenerationChangedEventRaised, Is.True);
+    }
 }

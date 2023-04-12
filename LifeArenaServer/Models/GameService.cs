@@ -10,6 +10,7 @@ public class GameService : IGameService
     private readonly GameServiceSettings _settings;
     private readonly Task _generationLoopTask;
     private readonly Dictionary<string, int> _cellsPlacedInThisGenerationCountByPlayer = new();
+    private DateTime _lastGenerationStartTime = DateTime.Now;
 
     public GameService(ICoreGameModel coreGameModel, IOptions<GameServiceSettings> settings)
     {
@@ -18,12 +19,13 @@ public class GameService : IGameService
         _generationLoopTask = GenerationLoop();
     }
 
+    public event EventHandler? GenerationChanged;
+    
     public bool[,] LivingCells => _coreGameModel.LivingCells;
-    
     public int Generation => _coreGameModel.Generation;
-    
     public int MaxCellsPerPlayerPerTurn => _settings.MaxCellsPerPlayerPerGeneration;
-    
+    public TimeSpan TimeUntilNextGeneration => _lastGenerationStartTime + _settings.NextGenerationInterval - DateTime.Now;
+
     public void AddCell(int x, int y, string playerId)
     {
         if (!_cellsPlacedInThisGenerationCountByPlayer.ContainsKey(playerId))
@@ -38,7 +40,14 @@ public class GameService : IGameService
         _coreGameModel.SetCellState(x, y, true);
         _cellsPlacedInThisGenerationCountByPlayer[playerId]++;
     }
-    
+
+    public int GetCellsLeftForPlayer(string playerId)
+    {
+        return _cellsPlacedInThisGenerationCountByPlayer.ContainsKey(playerId)
+            ? _settings.MaxCellsPerPlayerPerGeneration - _cellsPlacedInThisGenerationCountByPlayer[playerId]
+            : _settings.MaxCellsPerPlayerPerGeneration;
+    }
+
     private async Task GenerationLoop()
     {
         while (true)
@@ -54,5 +63,7 @@ public class GameService : IGameService
     {
         _coreGameModel.NextGeneration();
         _cellsPlacedInThisGenerationCountByPlayer.Clear();
+        _lastGenerationStartTime = DateTime.Now;
+        GenerationChanged?.Invoke(this, EventArgs.Empty);
     }
 }
