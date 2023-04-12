@@ -8,7 +8,6 @@ public class GameService : IGameService
 {
     private readonly ICoreGameModel _coreGameModel;
     private readonly GameServiceSettings _settings;
-    private readonly Task _generationLoopTask;
     private readonly Dictionary<string, int> _cellsPlacedInThisGenerationCountByPlayer = new();
     private DateTime _lastGenerationStartTime = DateTime.Now;
 
@@ -16,7 +15,7 @@ public class GameService : IGameService
     {
         _coreGameModel = coreGameModel;
         _settings = settings.Value;
-        _generationLoopTask = GenerationLoop();
+        _ = GenerationLoop();
     }
 
     public event EventHandler? GenerationChanged;

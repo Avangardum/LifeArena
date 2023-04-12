@@ -35,9 +35,11 @@ public class GameServiceTests
         };
     }
     
+    #pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
     private StubCoreGameModel _coreGameModel;
     private GameServiceSettings _settings;
     private IGameService _gameService;
+    #pragma warning restore CS8618
 
     [SetUp]
     public void Setup()
