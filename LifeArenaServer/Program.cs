@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 ConfigureServices();
 var app = builder.Build();
 ConfigureMiddlewarePipeline();
+StartBackgroundServices();
 app.Run();
 
 void ConfigureServices()
@@ -47,6 +48,12 @@ void ConfigureMiddlewarePipeline()
     app.UseHttpsRedirection();
     app.UseAuthorization();
     app.MapControllers();
+}
+
+void StartBackgroundServices()
+{
+    var services = app.Services;
+    services.GetRequiredService<IGameService>();
 }
 
 public partial class Program { }
