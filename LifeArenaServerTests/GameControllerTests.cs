@@ -1,8 +1,9 @@
 ﻿using Avangardum.LifeArena.Server.Controllers;
+using Avangardum.LifeArena.Server.Extensions;
 using Avangardum.LifeArena.Server.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LifeArena.Server.Tests;
+namespace Avangardum.LifeArena.Server.Tests;
 
 [TestFixture]
 public class GameControllerTests
@@ -51,7 +52,7 @@ public class GameControllerTests
     [Test]
     public void GetGameStateReturnsGameStateResponseWithDataFromGameService([Values(Player1Id, Player2Id)] string playerId)
     {
-        var expectedResponse = new GameStateResponse(_gameService.LivingCells, _gameService.Generation, 
+        var expectedResponse = new GameStateResponse(_gameService.LivingCells.ToListOfLists(), _gameService.Generation, 
             _gameService.TimeUntilNextGeneration, _gameService.GetCellsLeftForPlayer(playerId), _gameService.MaxCellsPerPlayerPerTurn);
         _userIdProvider.UserId = playerId;
         var actualResponse = (_gameController.GetState() as OkObjectResult)?.Value as GameStateResponse;

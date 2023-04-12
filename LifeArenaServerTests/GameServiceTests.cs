@@ -3,7 +3,7 @@ using Avangardum.LifeArena.Server.Models;
 using Avangardum.LifeArena.Server.Settings;
 using Microsoft.Extensions.Options;
 
-namespace LifeArena.Server.Tests;
+namespace Avangardum.LifeArena.Server.Tests;
 
 [TestFixture]
 public class GameServiceTests

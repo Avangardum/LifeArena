@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LifeArenaServer", "LifeAren
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LifeArenaServerTests", "LifeArenaServerTests\LifeArenaServerTests.csproj", "{B9F13D64-9460-4C1B-9D72-6A0816D42FA2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LifeArenaServerIntegrationTests", "LifeArenaServerIntegrationTests\LifeArenaServerIntegrationTests.csproj", "{C0887156-9B8F-41CE-A22D-7469762319C0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{B9F13D64-9460-4C1B-9D72-6A0816D42FA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9F13D64-9460-4C1B-9D72-6A0816D42FA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9F13D64-9460-4C1B-9D72-6A0816D42FA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0887156-9B8F-41CE-A22D-7469762319C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0887156-9B8F-41CE-A22D-7469762319C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0887156-9B8F-41CE-A22D-7469762319C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0887156-9B8F-41CE-A22D-7469762319C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
