@@ -1,6 +1,4 @@
 ﻿using System.Net;
-using System.Text.Json;
-using Avangardum.LifeArena.Server.Controllers;
 using Avangardum.LifeArena.Server.Settings;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
