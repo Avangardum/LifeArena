@@ -1,7 +1,7 @@
 ﻿using Avangardum.LifeArena.Server.Interfaces;
 using Avangardum.LifeArena.Server.Models;
 
-namespace LifeArenaServerTests;
+namespace LifeArena.Server.Tests;
 
 [TestFixture]
 public class CoreGameModelTests

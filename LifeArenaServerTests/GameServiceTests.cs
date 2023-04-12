@@ -3,12 +3,12 @@ using Avangardum.LifeArena.Server.Models;
 using Avangardum.LifeArena.Server.Settings;
 using Microsoft.Extensions.Options;
 
-namespace LifeArenaServerTests;
+namespace LifeArena.Server.Tests;
 
 [TestFixture]
 public class GameServiceTests
 {
-    private class StubCoreGameModel : ICoreGameModel
+    private class MockCoreGameModel : ICoreGameModel
     {
         public bool[,] LivingCells { get; set; } = new bool[100, 100];
         public int Generation { get; set; }
@@ -25,7 +25,7 @@ public class GameServiceTests
             NextGenerationCallCount++;
         }
     }
-    
+
     private class TestGameServiceSettingsOptions : IOptions<GameServiceSettings>
     {
         public GameServiceSettings Value { get; } = new GameServiceSettings
@@ -36,7 +36,7 @@ public class GameServiceTests
     }
     
     #pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
-    private StubCoreGameModel _coreGameModel;
+    private MockCoreGameModel _coreGameModel;
     private GameServiceSettings _settings;
     private IGameService _gameService;
     #pragma warning restore CS8618
@@ -46,7 +46,7 @@ public class GameServiceTests
     {
         var options = new TestGameServiceSettingsOptions();
         _settings = options.Value;
-        _coreGameModel = new StubCoreGameModel();
+        _coreGameModel = new MockCoreGameModel();
         _gameService = new GameService(_coreGameModel, options);
     }
 
