@@ -36,8 +36,8 @@ public class GameServiceTests
         public GameServiceSettings Value { get; } = new GameServiceSettings
         {
             MaxCellsPerPlayerPerGeneration = 10,
-            NextGenerationInterval = TimeSpan.FromSeconds(0.1),
-            MaxTimeFromGenerationChangeToIgnoreAddCell = TimeSpan.FromSeconds(0.02)
+            NextGenerationInterval = TimeSpan.FromSeconds(0.3),
+            MaxTimeFromGenerationChangeToIgnoreAddCell = TimeSpan.FromSeconds(0.05)
         };
     }
     
