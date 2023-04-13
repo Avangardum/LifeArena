@@ -27,6 +27,7 @@ public class GameServiceTests
         public void NextGeneration()
         {
             NextGenerationCallCount++;
+            Generation++;
         }
     }
 
@@ -36,6 +37,7 @@ public class GameServiceTests
         {
             MaxCellsPerPlayerPerGeneration = 10,
             NextGenerationInterval = TimeSpan.FromSeconds(0.1),
+            MaxTimeFromGenerationChangeToIgnoreAddCell = TimeSpan.FromSeconds(0.02)
         };
     }
     
@@ -180,5 +182,18 @@ public class GameServiceTests
             Throws.InstanceOf<ArgumentOutOfRangeException>());
         Assert.That(() => _gameService.AddCell(0, _gameService.LivingCells.GetLength(1), Player1Id), 
             Throws.InstanceOf<ArgumentOutOfRangeException>());
+    }
+    
+    [Test]
+    public async Task AddCellNearGenerationChangeShouldBeIgnored()
+    {
+        var delay1 = _settings.NextGenerationInterval - _settings.MaxTimeFromGenerationChangeToIgnoreAddCell / 2;
+        var delay2 = _settings.MaxTimeFromGenerationChangeToIgnoreAddCell;
+        await Task.Delay(delay1);
+        _gameService.AddCell(0, 0, Player1Id);
+        Assert.That(_coreGameModel.SetCellStateCallHistory, Is.Empty);
+        await Task.Delay(delay2);
+        _gameService.AddCell(0, 0, Player1Id);
+        Assert.That(_coreGameModel.SetCellStateCallHistory, Is.Empty);
     }
 }

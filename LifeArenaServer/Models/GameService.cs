@@ -25,11 +25,31 @@ public class GameService : IGameService
     public int MaxCellsPerPlayerPerTurn => _settings.MaxCellsPerPlayerPerGeneration;
     public TimeSpan TimeUntilNextGeneration => _lastGenerationStartTime + _settings.NextGenerationInterval - DateTime.Now;
 
+    private TimeSpan TimeFromGenerationChange
+    {
+        get
+        {
+            var nextGenerationStartTime = _lastGenerationStartTime + _settings.NextGenerationInterval;
+            var timeFromLastGenerationStart = DateTime.Now - _lastGenerationStartTime;
+            var timeFromNextGenerationStart = nextGenerationStartTime - DateTime.Now;
+            var timeFromGenerationChange = Generation > 0
+                ? new List<TimeSpan> { timeFromLastGenerationStart, timeFromNextGenerationStart }.MinBy(t => t)
+                : timeFromNextGenerationStart;
+            return timeFromGenerationChange;
+        }
+    }
+
     public void AddCell(int x, int y, string playerId)
     {
-        if (x < 0 || x >= _coreGameModel.LivingCells.GetLength(0) || y < 0 || y >= _coreGameModel.LivingCells.GetLength(1))
+        if (x < 0 || x >= _coreGameModel.LivingCells.GetLength(0) || 
+            y < 0 || y >= _coreGameModel.LivingCells.GetLength(1))
         {
             throw new ArgumentOutOfRangeException();
+        }
+
+        if (TimeFromGenerationChange <= _settings.MaxTimeFromGenerationChangeToIgnoreAddCell)
+        {
+            return;
         }
         
         if (_coreGameModel.LivingCells[x, y])

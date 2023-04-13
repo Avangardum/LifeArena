@@ -4,4 +4,6 @@ public class GameServiceSettings
 {
     public int MaxCellsPerPlayerPerGeneration { get; set; }
     public TimeSpan NextGenerationInterval { get; set; }
+    public TimeSpan MaxTimeFromGenerationChangeToIgnoreAddCell { get; set; }
+
 }

@@ -97,6 +97,4 @@ public class GameControllerTests
         var response = _gameController.AddCell(0, 0);
         Assert.That(response, Is.TypeOf<BadRequestResult>());
     }
-    
-    // TODO AddCell close to generation change should be ignored
 }
