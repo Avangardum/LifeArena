@@ -29,9 +29,9 @@ void ConfigureServices()
 
     void ConfigureCustomServices()
     {
-        services.AddSingleton<CoreGameModelFactory>();
+        services.AddSingleton<ICoreGameModelFactory, CoreGameModelFactory>();
         services.AddSingleton<ICoreGameModel>(provider => 
-            provider.GetRequiredService<CoreGameModelFactory>().CreateCoreGameModel());
+            provider.GetRequiredService<ICoreGameModelFactory>().CreateCoreGameModel());
         services.AddSingleton<IGameService, GameService>();
         services.AddSingleton<IUserIdProvider, IpAddressUserIdProvider>();
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
