@@ -4,7 +4,7 @@ namespace Avangardum.LifeArena.Server.Interfaces;
 
 public interface IHistoryManager
 {
-    int LastSnapshotGeneration { get; }
+    int? LastSnapshotGeneration { get; }
     
     GameSnapshot GetSnapshot(int generation);
 }

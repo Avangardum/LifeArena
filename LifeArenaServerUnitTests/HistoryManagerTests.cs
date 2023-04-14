@@ -12,9 +12,9 @@ public class HistoryManagerTests
 
         public bool[,] LivingCells { get; } = new bool[100, 100];
         public int Generation { get; set; }
-        public int MaxCellsPerPlayerPerTurn { get; set; }
-        public TimeSpan TimeUntilNextGeneration { get; set; }
-        
+        public int MaxCellsPerPlayerPerTurn => 0;
+        public TimeSpan TimeUntilNextGeneration => default;
+
         public void AddCell(int x, int y, string playerId)
         {
             throw new NotImplementedException();
@@ -30,7 +30,7 @@ public class HistoryManagerTests
     
     private class MockHistoryRepository : IHistoryRepository
     {
-        public int LastSnapshotGeneration { get; set; }
+        public int? LastSnapshotGeneration { get; set; }
         public List<GameSnapshot> SaveSnapshotCallHistory { get; } = new();
 
         public void SaveSnapshot(GameSnapshot snapshot)
@@ -59,7 +59,7 @@ public class HistoryManagerTests
     }
 
     [Test]
-    public void LastSnapshotGenerationReturnsValueFromRepository([Values(5, 77, 90)] int value)
+    public void LastSnapshotGenerationReturnsValueFromRepository([Values(5, 77, 90, null)] int value)
     {
         _repository.LastSnapshotGeneration = value;
         Assert.That(_historyManager.LastSnapshotGeneration, Is.EqualTo(value));

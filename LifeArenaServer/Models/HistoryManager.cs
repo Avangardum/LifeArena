@@ -15,7 +15,7 @@ public class HistoryManager : IHistoryManager
         gameService.GenerationChanged += OnGenerationChanged;
     }
 
-    public int LastSnapshotGeneration => _repository.LastSnapshotGeneration;
+    public int? LastSnapshotGeneration => _repository.LastSnapshotGeneration;
 
     public GameSnapshot GetSnapshot(int generation) => _repository.LoadSnapshot(generation);
 

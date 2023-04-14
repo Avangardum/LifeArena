@@ -29,11 +29,15 @@ public class HistoryFileRepository : IHistoryRepository
         }
     }
 
-    public int LastSnapshotGeneration
+    public int? LastSnapshotGeneration
     {
         get
         {
             var snapshotFiles = Directory.GetFiles(_historyDirectoryPath);
+            if (!snapshotFiles.Any())
+            {
+                return null;
+            }
             var snapshotFileGenerations = snapshotFiles
                 .Select(Path.GetFileNameWithoutExtension)
                 .Select(int.Parse!)

@@ -87,4 +87,10 @@ public class HistoryFileRepositoryTests
         
         Assert.That(_repository.LastSnapshotGeneration, Is.EqualTo(5));
     }
+    
+    [Test]
+    public void LastSnapshotGenerationReturnsNullIfNoSnapshots()
+    {
+        Assert.That(_repository.LastSnapshotGeneration, Is.EqualTo(null));
+    }
 }
