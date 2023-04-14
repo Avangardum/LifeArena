@@ -36,6 +36,9 @@ void ConfigureServices()
         services.AddSingleton<IUserIdProvider, IpAddressUserIdProvider>();
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         services.AddSingleton<ILivingCellsArrayPreserializer, LivingCellsArrayPreserializer>();
+        services.AddSingleton<IFileRepositoryPathProvider, FileRepositoryPathProvider>();
+        services.AddSingleton<IHistoryRepository, HistoryFileRepository>();
+        services.AddSingleton<IHistoryManager, HistoryManager>();
     }
 }
 
@@ -55,6 +58,7 @@ void StartBackgroundServices()
 {
     var services = app.Services;
     services.GetRequiredService<IGameService>();
+    services.GetRequiredService<IHistoryManager>();
 }
 
 public partial class Program { }
