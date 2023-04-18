@@ -2,6 +2,7 @@ using Avangardum.LifeArena.Server.Helpers;
 using Avangardum.LifeArena.Server.Interfaces;
 using Avangardum.LifeArena.Server.Models;
 using Avangardum.LifeArena.Server.Settings;
+using Avangardum.LifeArena.Shared;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigureServices();

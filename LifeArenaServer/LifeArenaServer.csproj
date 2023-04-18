@@ -17,4 +17,10 @@
       <Folder Include="Extensions" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Reference Include="LifeArenaShared">
+        <HintPath>..\ExternalDlls\LifeArenaShared\LifeArenaShared.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
 </Project>

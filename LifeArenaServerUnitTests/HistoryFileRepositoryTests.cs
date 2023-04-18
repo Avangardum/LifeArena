@@ -1,6 +1,7 @@
 ﻿using Avangardum.LifeArena.Server.Helpers;
 using Avangardum.LifeArena.Server.Interfaces;
 using Avangardum.LifeArena.Server.Models;
+using Avangardum.LifeArena.Shared;
 using Newtonsoft.Json.Linq;
 
 namespace Avangardum.LifeArena.Server.UnitTests;

@@ -1,4 +1,4 @@
-﻿using Avangardum.LifeArena.Server.Helpers;
+﻿using Avangardum.LifeArena.Shared;
 
 namespace Avangardum.LifeArena.Server.UnitTests;
 

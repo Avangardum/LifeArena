@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Avangardum.LifeArena.Server.Interfaces;
+using Avangardum.LifeArena.Shared;
 using Newtonsoft.Json.Linq;
 
 namespace Avangardum.LifeArena.Server.Models;

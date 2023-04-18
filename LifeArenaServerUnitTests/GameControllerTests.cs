@@ -1,6 +1,6 @@
 ﻿using Avangardum.LifeArena.Server.Controllers;
-using Avangardum.LifeArena.Server.Helpers;
 using Avangardum.LifeArena.Server.Interfaces;
+using Avangardum.LifeArena.Shared;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Avangardum.LifeArena.Server.UnitTests;

@@ -1,4 +1,5 @@
 ﻿using Avangardum.LifeArena.Server.Interfaces;
+using Avangardum.LifeArena.Shared;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Avangardum.LifeArena.Server.Controllers;
