@@ -56,11 +56,8 @@ public class GameService : IGameService
         {
             return;
         }
-        
-        if (!_cellsPlacedInThisGenerationCountByPlayer.ContainsKey(playerId))
-        {
-            _cellsPlacedInThisGenerationCountByPlayer[playerId] = 0;
-        }
+
+        _cellsPlacedInThisGenerationCountByPlayer.TryAdd(playerId, 0);
         if (_cellsPlacedInThisGenerationCountByPlayer[playerId] >= _settings.MaxCellsPerPlayerPerGeneration)
         {
             return;
@@ -72,8 +69,8 @@ public class GameService : IGameService
 
     public int GetCellsLeftForPlayer(string playerId)
     {
-        return _cellsPlacedInThisGenerationCountByPlayer.ContainsKey(playerId)
-            ? _settings.MaxCellsPerPlayerPerGeneration - _cellsPlacedInThisGenerationCountByPlayer[playerId]
+        return _cellsPlacedInThisGenerationCountByPlayer.TryGetValue(playerId, out var cellsPlaced)
+            ? _settings.MaxCellsPerPlayerPerGeneration - cellsPlaced
             : _settings.MaxCellsPerPlayerPerGeneration;
     }
 
