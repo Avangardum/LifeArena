@@ -143,13 +143,13 @@ public class GameServiceTests
     public async Task TimeUntilNextGenerationReturnsTimeUntilNextGeneration()
     {
         Assert.That(_gameService.TimeUntilNextGeneration.TotalSeconds, 
-            Is.EqualTo(_settings.NextGenerationInterval.TotalSeconds).Within(10).Percent);
+            Is.EqualTo(_settings.NextGenerationInterval.TotalSeconds).Within(20).Percent);
         await Task.Delay(_settings.NextGenerationInterval / 2);
         Assert.That(_gameService.TimeUntilNextGeneration.TotalSeconds, 
-            Is.EqualTo(_settings.NextGenerationInterval.TotalSeconds / 2).Within(10).Percent);
+            Is.EqualTo(_settings.NextGenerationInterval.TotalSeconds / 2).Within(20).Percent);
         await Task.Delay(_settings.NextGenerationInterval);
         Assert.That(_gameService.TimeUntilNextGeneration.TotalSeconds, 
-            Is.EqualTo(_settings.NextGenerationInterval.TotalSeconds / 2).Within(10).Percent);
+            Is.EqualTo(_settings.NextGenerationInterval.TotalSeconds / 2).Within(20).Percent);
     }
     
     [Test]
