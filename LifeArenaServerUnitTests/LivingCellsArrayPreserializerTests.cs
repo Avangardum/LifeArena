@@ -33,7 +33,7 @@ public class LivingCellsArrayPreserializerTests
         expected[0, 0] = true;
         expected[1, 0] = true;
         var preserializedObject = new List<string> { "..", "00" };
-        var actual = _preserializer.Despreserialize(preserializedObject);
+        var actual = _preserializer.Depreserialize(preserializedObject);
         Assert.That(actual, Is.EqualTo(expected));
     }
 }

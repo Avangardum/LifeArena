@@ -67,7 +67,7 @@ public class HistoryFileRepository : IHistoryRepository
         var json = JObject.Parse(rawJson);
         var preserializedLivingCells = json[LivingCellsPropertyName]?.ToObject<List<string>>();
         Debug.Assert(preserializedLivingCells != null);
-        var livingCells = _livingCellsArrayPreserializer.Despreserialize(preserializedLivingCells);
+        var livingCells = _livingCellsArrayPreserializer.Depreserialize(preserializedLivingCells);
         return new GameSnapshot(livingCells, generation);
     }
 }
