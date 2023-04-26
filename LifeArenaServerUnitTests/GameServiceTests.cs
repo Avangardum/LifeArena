@@ -1,6 +1,7 @@
 ﻿using Avangardum.LifeArena.Server.Interfaces;
 using Avangardum.LifeArena.Server.Models;
 using Avangardum.LifeArena.Server.Settings;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Avangardum.LifeArena.Server.UnitTests;
@@ -41,6 +42,25 @@ public class GameServiceTests
         };
     }
     
+    private class MockLogger<T> : ILogger<T>
+    {
+        public IDisposable BeginScope<TState>(TState state) where TState : notnull
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsEnabled(LogLevel logLevel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, 
+            Func<TState, Exception?, string> formatter)
+        {
+            
+        }
+    }
+    
     #pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
     private MockCoreGameModel _coreGameModel;
     private GameServiceSettings _settings;
@@ -53,7 +73,7 @@ public class GameServiceTests
         var options = new TestGameServiceSettingsOptions();
         _settings = options.Value;
         _coreGameModel = new MockCoreGameModel();
-        _gameService = new GameService(_coreGameModel, options);
+        _gameService = new GameService(_coreGameModel, options, new MockLogger<GameService>());
     }
 
     [Test]

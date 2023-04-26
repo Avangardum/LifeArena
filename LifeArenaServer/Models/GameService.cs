@@ -1,4 +1,5 @@
-﻿using Avangardum.LifeArena.Server.Interfaces;
+﻿using System.Diagnostics;
+using Avangardum.LifeArena.Server.Interfaces;
 using Avangardum.LifeArena.Server.Settings;
 using Microsoft.Extensions.Options;
 
@@ -8,13 +9,17 @@ public class GameService : IGameService
 {
     private readonly ICoreGameModel _coreGameModel;
     private readonly GameServiceSettings _settings;
+    private readonly ILogger<GameService> _logger;
+    
     private readonly Dictionary<string, int> _cellsPlacedInThisGenerationCountByPlayer = new();
     private DateTime _lastGenerationStartTime = DateTime.Now;
 
-    public GameService(ICoreGameModel coreGameModel, IOptions<GameServiceSettings> settings)
+    public GameService(ICoreGameModel coreGameModel, IOptions<GameServiceSettings> settings, ILogger<GameService> logger)
     {
         _coreGameModel = coreGameModel;
         _settings = settings.Value;
+        _logger = logger;
+        
         _ = GenerationLoop();
     }
 
@@ -88,9 +93,12 @@ public class GameService : IGameService
 
     private void NextGeneration()
     {
+        var stopwatch = Stopwatch.StartNew();
         _coreGameModel.NextGeneration();
         _cellsPlacedInThisGenerationCountByPlayer.Clear();
         _lastGenerationStartTime = DateTime.Now;
+        _logger.LogInformation("Progressed to generation {Generation} in {ElapsedMilliseconds} ms", 
+            Generation, stopwatch.ElapsedMilliseconds);
         GenerationChanged?.Invoke(this, EventArgs.Empty);
     }
 }
