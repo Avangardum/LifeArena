@@ -19,8 +19,11 @@ public class GameControllerTests
         public event EventHandler? GenerationChanged;
         public bool[,] LivingCells { get; }
         public int Generation => 42;
-        public int MaxCellsPerPlayerPerTurn => 10;
+        public int MaxCellsPerPlayerPerGeneration => 10;
         public TimeSpan TimeUntilNextGeneration => TimeSpan.FromSeconds(5);
+
+        public TimeSpan NextGenerationInterval => TimeSpan.FromSeconds(5);
+
         public Exception? AddCellException { get; set; }
         
         public void AddCell(int x, int y, string playerId)
@@ -63,8 +66,17 @@ public class GameControllerTests
     public void GetGameStateReturnsGameStateResponseWithDataFromGameService([Values(Player1Id, Player2Id)] string playerId)
     {
         var preserializedLivingCells = _livingCellsArrayPreserializer.Preserialize(_gameService.LivingCells);
-        var expectedResponse = new GameStateResponse(preserializedLivingCells, _gameService.Generation, 
-            _gameService.TimeUntilNextGeneration, _gameService.GetCellsLeftForPlayer(playerId), _gameService.MaxCellsPerPlayerPerTurn);
+        // var expectedResponse = new GameStateResponse(preserializedLivingCells, _gameService.Generation, 
+        //     _gameService.TimeUntilNextGeneration, _gameService.GetCellsLeftForPlayer(playerId), _gameService.MaxCellsPerPlayerPerTurn);
+        var expectedResponse = new GameStateResponse
+        (
+            LivingCells: preserializedLivingCells,
+            Generation: _gameService.Generation,
+            TimeUntilNextGeneration: _gameService.TimeUntilNextGeneration,
+            NextGenerationInterval: _gameService.NextGenerationInterval,
+            CellsLeft: _gameService.GetCellsLeftForPlayer(playerId),
+            MaxCellsPerPlayerPerGeneration: _gameService.MaxCellsPerPlayerPerGeneration
+        );
         _userIdProvider.UserId = playerId;
         var actualResponse = (_gameController.GetState() as OkObjectResult)?.Value as GameStateResponse;
         Assert.That(actualResponse, Is.Not.Null);

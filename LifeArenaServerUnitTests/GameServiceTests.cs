@@ -75,7 +75,7 @@ public class GameServiceTests
     [Test]
     public void ReturnsMaxCellsPerPlayerPerTurnFromSettings()
     {
-        Assert.That(_gameService.MaxCellsPerPlayerPerTurn, Is.EqualTo(_settings.MaxCellsPerPlayerPerGeneration));
+        Assert.That(_gameService.MaxCellsPerPlayerPerGeneration, Is.EqualTo(_settings.MaxCellsPerPlayerPerGeneration));
     }
     
     [Test]

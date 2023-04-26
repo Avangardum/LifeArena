@@ -12,8 +12,9 @@ public class HistoryManagerTests
 
         public bool[,] LivingCells { get; } = new bool[100, 100];
         public int Generation { get; set; }
-        public int MaxCellsPerPlayerPerTurn => 0;
+        public int MaxCellsPerPlayerPerGeneration => 0;
         public TimeSpan TimeUntilNextGeneration => default;
+        public TimeSpan NextGenerationInterval => default;
 
         public void AddCell(int x, int y, string playerId)
         {

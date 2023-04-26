@@ -22,8 +22,9 @@ public class GameService : IGameService
     
     public bool[,] LivingCells => _coreGameModel.LivingCells;
     public int Generation => _coreGameModel.Generation;
-    public int MaxCellsPerPlayerPerTurn => _settings.MaxCellsPerPlayerPerGeneration;
+    public int MaxCellsPerPlayerPerGeneration => _settings.MaxCellsPerPlayerPerGeneration;
     public TimeSpan TimeUntilNextGeneration => _lastGenerationStartTime + _settings.NextGenerationInterval - DateTime.Now;
+    public TimeSpan NextGenerationInterval => _settings.NextGenerationInterval;
 
     private TimeSpan TimeFromGenerationChange
     {

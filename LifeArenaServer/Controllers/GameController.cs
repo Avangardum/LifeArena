@@ -23,9 +23,18 @@ public class GameController : ApiController
     {
         var playerId = _userIdProvider.UserId;
         var preserializedLivingCells = _livingCellsArrayPreserializer.Preserialize(_gameService.LivingCells);
-        var response = new GameStateResponse(preserializedLivingCells, _gameService.Generation, 
-            _gameService.TimeUntilNextGeneration, _gameService.GetCellsLeftForPlayer(playerId), 
-            _gameService.MaxCellsPerPlayerPerTurn);
+        // var response = new GameStateResponse(preserializedLivingCells, _gameService.Generation, 
+        //     _gameService.TimeUntilNextGeneration, _gameService.GetCellsLeftForPlayer(playerId), 
+        //     _gameService.MaxCellsPerPlayerPerTurn);
+        var response = new GameStateResponse
+        (
+            LivingCells: preserializedLivingCells,
+            Generation: _gameService.Generation,
+            TimeUntilNextGeneration: _gameService.TimeUntilNextGeneration,
+            NextGenerationInterval: _gameService.NextGenerationInterval,
+            CellsLeft: _gameService.GetCellsLeftForPlayer(playerId),
+            MaxCellsPerPlayerPerGeneration: _gameService.MaxCellsPerPlayerPerGeneration
+        );
         return new OkObjectResult(response);
     }
 
