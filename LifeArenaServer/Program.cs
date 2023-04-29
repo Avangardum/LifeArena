@@ -52,6 +52,7 @@ void ConfigureMiddlewarePipeline()
     }
     app.UseHttpsRedirection();
     app.UseAuthorization();
+    app.UseStaticFiles(new StaticFileOptions { ServeUnknownFileTypes = true });
     app.MapControllers();
 }
 
