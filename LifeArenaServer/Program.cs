@@ -15,6 +15,7 @@ void ConfigureServices()
 {
     var services = builder.Services;
     services.AddControllers();
+    services.AddRazorPages();
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     services.AddEndpointsApiExplorer();
     services.AddSwaggerGen();
@@ -54,6 +55,7 @@ void ConfigureMiddlewarePipeline()
     app.UseAuthorization();
     app.UseStaticFiles(new StaticFileOptions { ServeUnknownFileTypes = true });
     app.MapControllers();
+    app.MapRazorPages();
 }
 
 void StartBackgroundServices()
