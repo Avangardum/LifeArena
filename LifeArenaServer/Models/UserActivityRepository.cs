@@ -33,5 +33,5 @@ public class UserActivityRepository : IUserActivityRepository
         return new HashSet<string>(File.ReadAllLines(filePath));
     }
 
-    private string GetFilePathForDate(DateOnly date) => Path.Combine(_userActivityDirectoryPath, $"{date:yyyy-MM-dd}.txt");
+    private string GetFilePathForDate(DateOnly date) => Path.Combine(_userActivityDirectoryPath, $"{date:yyyy-MMM-dd}.txt");
 }

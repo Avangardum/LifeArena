@@ -33,6 +33,6 @@ public class UserActivityControllerTests
     [Test]
     public void GetsDailyActiveUsersCountFromManager()
     {
-        Assert.That(_userActivityController.DailyActiveUsers(), Is.EqualTo(42));
+        Assert.That(_userActivityController.DailyActiveUsers(DateOnly.FromDateTime(DateTime.UtcNow)), Is.EqualTo(42));
     }
 }

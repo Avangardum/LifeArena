@@ -24,16 +24,17 @@ public class UserActivityIntegrationTests
     [Test]
     public async Task DailyActiveUsersIncreasesAfterGetGameState()
     {
-        var dailyActiveUsers = await GetDailyActiveUsers();
+        var dailyActiveUsers = await GetTodayDailyActiveUsersCount();
         Assert.That(dailyActiveUsers, Is.EqualTo(0));
         await _httpClient.GetAsync("Api/Game/GetState");
-        dailyActiveUsers = await GetDailyActiveUsers();
+        dailyActiveUsers = await GetTodayDailyActiveUsersCount();
         Assert.That(dailyActiveUsers, Is.EqualTo(1));
     }
 
-    private async Task<int> GetDailyActiveUsers()
+    private async Task<int> GetTodayDailyActiveUsersCount()
     {
-        var response = await _httpClient.GetAsync("Api/UserActivity/DailyActiveUsers");
+        var today = DateOnly.FromDateTime(DateTime.UtcNow);
+        var response = await _httpClient.GetAsync($"Api/UserActivity/DailyActiveUsers?date={today:yyyy-MMM-dd}");
         var text = await response.Content.ReadAsStringAsync();
         return int.Parse(text);
     }

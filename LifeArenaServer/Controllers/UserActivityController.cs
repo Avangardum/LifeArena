@@ -13,8 +13,8 @@ public class UserActivityController : ApiController
     }
 
     [HttpGet]
-    public int DailyActiveUsers()
+    public int DailyActiveUsers(DateOnly date)
     {
-        return _userActivityManager.GetDailyActiveUsersCount(DateOnly.FromDateTime(DateTime.UtcNow));
+        return _userActivityManager.GetDailyActiveUsersCount(date);
     }
 }
