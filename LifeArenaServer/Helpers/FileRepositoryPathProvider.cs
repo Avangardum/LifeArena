@@ -24,7 +24,7 @@ public class FileRepositoryPathProvider : IFileRepositoryPathProvider
             throw new PlatformNotSupportedException();
         }
         
-        FileRepositoryPath = Path.Combine(fileRepositoryParentPath, "LifeArena");
+        FileRepositoryPath = Path.Combine(fileRepositoryParentPath, "LifeArenaServer");
     }
     
     public string FileRepositoryPath { get; }
