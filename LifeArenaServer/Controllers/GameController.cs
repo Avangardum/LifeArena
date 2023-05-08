@@ -9,23 +9,23 @@ public class GameController : ApiController
     private IGameService _gameService;
     private IUserIdProvider _userIdProvider;
     private ILivingCellsArrayPreserializer _livingCellsArrayPreserializer;
+    private IUserActivityManager _userActivityManager;
 
     public GameController(IGameService gameService, IUserIdProvider userIdProvider, 
-        ILivingCellsArrayPreserializer livingCellsArrayPreserializer)
+        ILivingCellsArrayPreserializer livingCellsArrayPreserializer, IUserActivityManager userActivityManager)
     {
         _gameService = gameService;
         _userIdProvider = userIdProvider;
         _livingCellsArrayPreserializer = livingCellsArrayPreserializer;
+        _userActivityManager = userActivityManager;
     }
 
     [HttpGet]
     public IActionResult GetState()
     {
         var playerId = _userIdProvider.UserId;
+        _userActivityManager.ReportUserActivity(playerId, DateOnly.FromDateTime(DateTime.UtcNow));
         var preserializedLivingCells = _livingCellsArrayPreserializer.Preserialize(_gameService.LivingCells);
-        // var response = new GameStateResponse(preserializedLivingCells, _gameService.Generation, 
-        //     _gameService.TimeUntilNextGeneration, _gameService.GetCellsLeftForPlayer(playerId), 
-        //     _gameService.MaxCellsPerPlayerPerTurn);
         var response = new GameStateResponse
         (
             LivingCells: preserializedLivingCells,

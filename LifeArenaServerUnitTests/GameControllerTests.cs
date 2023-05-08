@@ -43,12 +43,28 @@ public class GameControllerTests
         public string UserId { get; set; } = "Anonymous";
     }
     
+    private class MockUserActivityManager : IUserActivityManager
+    {
+        public int ReportUserActivityCallCount { get; private set; }
+        
+        public void ReportUserActivity(string userId, DateOnly date)
+        {
+            ReportUserActivityCallCount++;
+        }
+
+        public int GetDailyActiveUsersCount(DateOnly date)
+        {
+            throw new NotImplementedException();
+        }
+    }
+    
     private const string Player1Id = "John Doe";
     private const string Player2Id = "Joe Mama";
     
     #pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
     private MockGameService _gameService;
     private MockUserIdProvider _userIdProvider;
+    private MockUserActivityManager _userActivityManager;
     private GameController _gameController;
     private ILivingCellsArrayPreserializer _livingCellsArrayPreserializer;
     #pragma warning restore CS8618
@@ -59,7 +75,8 @@ public class GameControllerTests
         _gameService = new MockGameService();
         _userIdProvider = new MockUserIdProvider();
         _livingCellsArrayPreserializer = new LivingCellsArrayPreserializer();
-        _gameController = new GameController(_gameService, _userIdProvider, _livingCellsArrayPreserializer);
+        _userActivityManager = new MockUserActivityManager();
+        _gameController = new GameController(_gameService, _userIdProvider, _livingCellsArrayPreserializer, _userActivityManager);
     }
 
     [Test]
@@ -108,5 +125,13 @@ public class GameControllerTests
         _gameService.AddCellException = new ArgumentException();
         var response = _gameController.AddCell(0, 0);
         Assert.That(response, Is.TypeOf<BadRequestResult>());
+    }
+    
+    [Test]
+    public void GetStateReportsUserActivity()
+    {
+        _gameController.GetState();
+        _gameController.GetState();
+        Assert.That(_userActivityManager.ReportUserActivityCallCount, Is.EqualTo(2));
     }
 }

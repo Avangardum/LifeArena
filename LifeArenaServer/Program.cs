@@ -41,6 +41,8 @@ void ConfigureServices()
         services.AddSingleton<IFileRepositoryPathProvider, FileRepositoryPathProvider>();
         services.AddSingleton<IHistoryRepository, HistoryFileRepository>();
         services.AddSingleton<IHistoryManager, HistoryManager>();
+        services.AddSingleton<IUserActivityManager, UserActivityManager>();
+        services.AddSingleton<IUserActivityRepository, UserActivityRepository>();
     }
 }
 
