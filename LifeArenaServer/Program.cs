@@ -3,6 +3,7 @@ using Avangardum.LifeArena.Server.Interfaces;
 using Avangardum.LifeArena.Server.Models;
 using Avangardum.LifeArena.Server.Settings;
 using Avangardum.LifeArena.Shared;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigureServices();
@@ -19,9 +20,19 @@ void ConfigureServices()
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     services.AddEndpointsApiExplorer();
     services.AddSwaggerGen();
+    ConfigureForwardedHeaders();
     ConfigureSettings();
     ConfigureCustomServices();
 
+    void ConfigureForwardedHeaders()
+    {
+        builder.Services.Configure<ForwardedHeadersOptions>(options =>
+        {
+            options.ForwardedHeaders =
+                ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+        });
+    }
+    
     void ConfigureSettings()
     {
         var configuration = builder.Configuration;
@@ -53,6 +64,7 @@ void ConfigureMiddlewarePipeline()
         app.UseSwagger();
         app.UseSwaggerUI();
     }
+    app.UseForwardedHeaders();
     app.UseHttpsRedirection();
     app.UseAuthorization();
     app.UseStaticFiles(new StaticFileOptions { ServeUnknownFileTypes = true });
