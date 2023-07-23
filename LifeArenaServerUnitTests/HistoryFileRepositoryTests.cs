@@ -94,4 +94,17 @@ public class HistoryFileRepositoryTests
     {
         Assert.That(_repository.LastSnapshotGeneration, Is.EqualTo(null));
     }
+
+    [Test]
+    public void SaveSnapshotLeavesOnlyOneFileInHistoryDirectory()
+    {
+        var snapshot1 = new GameSnapshot(new bool[2, 2], 7);
+        var snapshot2 = new GameSnapshot(new bool[2, 2], 8);
+        var snapshot3 = new GameSnapshot(new bool[2, 2], 9);
+        _repository.SaveSnapshot(snapshot1);
+        _repository.SaveSnapshot(snapshot2);
+        _repository.SaveSnapshot(snapshot3);
+        var filesCount = Directory.GetFiles(_historyDirectoryPath).Length;
+        Assert.That(filesCount, Is.EqualTo(1));
+    }
 }

@@ -58,6 +58,24 @@ public class HistoryFileRepository : IHistoryRepository
         };
         var path = Path.Combine(_historyDirectoryPath, snapshot.Generation + HistoryFileExtension);
         File.WriteAllText(path, json.ToString());
+        DeleteSnapshotsExcept(snapshot.Generation);
+    }
+
+    private void DeleteSnapshotsExcept(int snapshotGenerationToNotDelete)
+    {
+        var snapshotFiles = Directory.GetFiles(_historyDirectoryPath);
+        var snapshotFileGenerations = snapshotFiles
+            .Select(Path.GetFileNameWithoutExtension)
+            .Select(int.Parse!)
+            .ToList();
+        var snapshotFileGenerationsToDelete = snapshotFileGenerations
+            .Where(generation => generation != snapshotGenerationToNotDelete)
+            .ToList();
+        foreach (var generationToDelete in snapshotFileGenerationsToDelete)
+        {
+            var path = Path.Combine(_historyDirectoryPath, generationToDelete + HistoryFileExtension);
+            File.Delete(path);
+        }
     }
 
     public GameSnapshot LoadSnapshot(int generation)

@@ -14,9 +14,12 @@ public class HistoryIntegrationTests
     private string _historyDirectoryPath;
     #pragma warning restore CS8618
 
-    private int SnapshotCount => Directory.GetFiles(_historyDirectoryPath).Length;
-    
-    [SetUp]
+    private string? LastSnapshotFile =>
+        Directory.GetFiles(_historyDirectoryPath)
+            .Order()
+            .LastOrDefault();
+
+            [SetUp]
     public void Setup()
     {
         var factory = new WebApplicationFactory<Program>();
@@ -28,8 +31,8 @@ public class HistoryIntegrationTests
     [Test]
     public async Task SnapshotIsSavedOnGenerationChanged()
     {
-        var initialSnapshotCount = SnapshotCount;
+        var initialLastSnapshotFile = LastSnapshotFile;
         await Task.Delay(_gameServiceSettings.NextGenerationInterval * 1.2);
-        Assert.That(SnapshotCount, Is.EqualTo(initialSnapshotCount + 1));
+        Assert.That(LastSnapshotFile, Is.Not.EqualTo(initialLastSnapshotFile));
     }
 }
