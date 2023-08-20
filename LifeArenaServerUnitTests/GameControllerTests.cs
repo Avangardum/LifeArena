@@ -16,7 +16,7 @@ public class GameControllerTests
             LivingCells[0, 0] = true;
         }
         
-        public event EventHandler? GenerationChanged;
+        public event EventHandler? GenerationChanged { add { } remove { } }
         public bool[,] LivingCells { get; }
         public int Generation => 42;
         public int MaxCellsPerPlayerPerGeneration => 10;
