@@ -1,4 +1,5 @@
-﻿using Avangardum.LifeArena.Server.Helpers;
+﻿using System.Net.Http.Json;
+using Avangardum.LifeArena.Server.Helpers;
 using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace Avangardum.LifeArena.Server.IntegrationTests;
@@ -29,6 +30,15 @@ public class UserActivityIntegrationTests
         await _httpClient.GetAsync("Api/Game/GetState");
         dailyActiveUsers = await GetTodayDailyActiveUsersCount();
         Assert.That(dailyActiveUsers, Is.EqualTo(1));
+    }
+
+    [Test]
+    public async Task GetsDailyActiveUsersCountForEveryDayInMonthReturnsJson()
+    {
+        var date = new DateOnly(2000, 1, 1);
+        var response = await _httpClient.GetFromJsonAsync<Dictionary<DateOnly, int>>(
+            "Api/UserActivity/DailyActiveUsersForMonth?date=2000-01-01");
+        Assert.That(response, Is.Not.Null);
     }
 
     private async Task<int> GetTodayDailyActiveUsersCount()

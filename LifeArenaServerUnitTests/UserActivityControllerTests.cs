@@ -14,7 +14,7 @@ public class UserActivityControllerTests
 
         public int GetDailyActiveUsersCount(DateOnly date)
         {
-            return 42;
+            return date.Day;
         }
     }
     
@@ -31,8 +31,19 @@ public class UserActivityControllerTests
     }
     
     [Test]
-    public void GetsDailyActiveUsersCountFromManager()
+    public void GetsDailyActiveUsersCountFromManager([Values(1, 2, 3, 5, 8)] int day)
     {
-        Assert.That(_userActivityController.DailyActiveUsers(DateOnly.FromDateTime(DateTime.UtcNow)), Is.EqualTo(42));
+        var date = new DateOnly(2000, 1, day);
+        Assert.That(_userActivityController.DailyActiveUsers(date), Is.EqualTo(date.Day));
+    }
+
+    [Test]
+    public void GetsDailyActiveUsersCountForEveryDayInMonth()
+    {
+        var date = new DateOnly(2000, 1, 1);
+        var dailyActiveUsersForMonth = _userActivityController.DailyActiveUsersForMonth(date);
+        var expectedDailyActiveUsersForMonth = Enumerable.Range(1, 31)
+            .ToDictionary(x => new DateOnly(2000, 1, x), day => day);
+        Assert.That(dailyActiveUsersForMonth, Is.EqualTo(expectedDailyActiveUsersForMonth));
     }
 }
