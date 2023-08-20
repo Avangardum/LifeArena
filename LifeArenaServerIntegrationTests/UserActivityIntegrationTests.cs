@@ -35,7 +35,6 @@ public class UserActivityIntegrationTests
     [Test]
     public async Task GetsDailyActiveUsersCountForEveryDayInMonthReturnsJson()
     {
-        var date = new DateOnly(2000, 1, 1);
         var response = await _httpClient.GetFromJsonAsync<Dictionary<DateOnly, int>>(
             "Api/UserActivity/DailyActiveUsersForMonth?date=2000-01-01");
         Assert.That(response, Is.Not.Null);
