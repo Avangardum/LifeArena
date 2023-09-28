@@ -18,12 +18,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Reference Include="LifeArenaShared">
-        <HintPath>..\ExternalDlls\LifeArenaShared\LifeArenaShared.dll</HintPath>
-      </Reference>
-    </ItemGroup>
-
-    <ItemGroup>
       <_ContentIncludedByDefault Remove="wwwroot\Client\TemplateData\favicon.ico" />
       <_ContentIncludedByDefault Remove="wwwroot\Client\TemplateData\fullscreen-button.png" />
       <_ContentIncludedByDefault Remove="wwwroot\Client\TemplateData\progress-bar-empty-dark.png" />
@@ -34,6 +28,10 @@
       <_ContentIncludedByDefault Remove="wwwroot\Client\TemplateData\unity-logo-dark.png" />
       <_ContentIncludedByDefault Remove="wwwroot\Client\TemplateData\unity-logo-light.png" />
       <_ContentIncludedByDefault Remove="wwwroot\Client\TemplateData\webgl-logo.png" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\LifeArenaShared\LifeArenaShared.csproj" />
     </ItemGroup>
 
 </Project>

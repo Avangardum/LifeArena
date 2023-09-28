@@ -6,6 +6,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LifeArenaServerUnitTests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LifeArenaServerIntegrationTests", "LifeArenaServerIntegrationTests\LifeArenaServerIntegrationTests.csproj", "{C0887156-9B8F-41CE-A22D-7469762319C0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LifeArenaShared", "LifeArenaShared\LifeArenaShared.csproj", "{4465D55C-80A9-48FB-A7D5-73D73A6C2015}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LifeArenaSharedTests", "LifeArenaSharedTests\LifeArenaSharedTests.csproj", "{745E1B5A-F80B-45E5-A0C5-7090F1692596}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +28,13 @@ Global
 		{C0887156-9B8F-41CE-A22D-7469762319C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0887156-9B8F-41CE-A22D-7469762319C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0887156-9B8F-41CE-A22D-7469762319C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4465D55C-80A9-48FB-A7D5-73D73A6C2015}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4465D55C-80A9-48FB-A7D5-73D73A6C2015}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4465D55C-80A9-48FB-A7D5-73D73A6C2015}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4465D55C-80A9-48FB-A7D5-73D73A6C2015}.Release|Any CPU.Build.0 = Release|Any CPU
+		{745E1B5A-F80B-45E5-A0C5-7090F1692596}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{745E1B5A-F80B-45E5-A0C5-7090F1692596}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{745E1B5A-F80B-45E5-A0C5-7090F1692596}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{745E1B5A-F80B-45E5-A0C5-7090F1692596}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
