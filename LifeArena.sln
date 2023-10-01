@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LifeArenaShared", "LifeAren
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LifeArenaSharedTests", "LifeArenaSharedTests\LifeArenaSharedTests.csproj", "{745E1B5A-F80B-45E5-A0C5-7090F1692596}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LifeArenaBlazorClient", "LifeArenaBlazorClient\LifeArenaBlazorClient.csproj", "{096DB46D-3C1D-4368-AFB2-789C1B6D61CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{745E1B5A-F80B-45E5-A0C5-7090F1692596}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{745E1B5A-F80B-45E5-A0C5-7090F1692596}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{745E1B5A-F80B-45E5-A0C5-7090F1692596}.Release|Any CPU.Build.0 = Release|Any CPU
+		{096DB46D-3C1D-4368-AFB2-789C1B6D61CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{096DB46D-3C1D-4368-AFB2-789C1B6D61CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{096DB46D-3C1D-4368-AFB2-789C1B6D61CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{096DB46D-3C1D-4368-AFB2-789C1B6D61CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
