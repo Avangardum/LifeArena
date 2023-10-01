@@ -1,5 +1,28 @@
-﻿<h3>LifeArenaBody</h3>
+﻿<div class="life-arena-body">
+    @for (int y = FieldHeight - 1; y >= 0; y--)
+    {
+        <div class="life-arena-row">
+            @for (int x = 0; x < FieldWidth; x++)
+            {
+                <LifeArenaCell IsAlive="_livingCells[x, y]"/>
+            }
+        </div>
+    }
+</div>
 
-@code {
-    
+@code
+{
+    private const int FieldWidth = 100;
+    private const int FieldHeight = 100;
+
+    private bool[,] _livingCells = new bool[FieldWidth, FieldHeight];
+
+    public bool[,] LivingCells
+    {
+        set
+        {
+            _livingCells = value;
+            StateHasChanged();
+        }
+    }
 }

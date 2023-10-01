@@ -1,0 +1,9 @@
+﻿<div class="life-arena-cell @IsAliveClass"></div>
+
+@code
+{
+    private string IsAliveClass => IsAlive ? "life-arena-cell-alive" : "life-arena-cell-dead";
+    
+    [Parameter]
+    public bool IsAlive { get; set; }
+}

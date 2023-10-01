@@ -100,6 +100,42 @@ a, .btn-link {
         content: var(--blazor-load-percentage-text, "Loading");
     }
 
-.hello-world {
-    color: green;
+.life-arena-header {
+    background-color: whitesmoke;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 80px;
+    color: black;
+}
+
+.life-arena-body {
+    background-color: #808080;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 80px;
+    bottom: 0;
+    color: white;
+    font-size: 0;
+    white-space: nowrap;
+}
+
+.life-arena-cell {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    margin: 0;
+    border-style: solid;
+    border-color: #808080;
+    border-width: 1px;
+}
+
+.life-arena-cell-dead {
+    background-color: black;
+}
+
+.life-arena-cell-alive {
+    background-color: white;
 }
