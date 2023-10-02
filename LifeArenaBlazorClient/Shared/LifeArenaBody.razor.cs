@@ -13,8 +13,8 @@ public partial class LifeArenaBody
     private const double MaxZoom = 2;
     private const double MaxToMinZoomRatio = MaxZoom / MinZoom;
     private const double WheelZoomSpeed = 0.0004;
-    private const string LifeArenaFieldClass = "life-arena-field";
-    private const string LifeArenaBodyClass = "life-arena-body";
+    private const string LifeArenaFieldCssClass = "life-arena-field";
+    private const string LifeArenaBodyCssClass = "life-arena-body";
 
     private bool[,] _livingCells = new bool[FieldWidth, FieldHeight];
     private double _zoomPercentage = ZoomPercentageFromZoom(1);
@@ -59,7 +59,7 @@ public partial class LifeArenaBody
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await JsRuntime.InvokeVoidAsync("makeLifeArenaFieldDraggable", LifeArenaBodyClass, 
+        await JsRuntime.InvokeVoidAsync("makeLifeArenaFieldDraggable", LifeArenaBodyCssClass, 
             DotNetObjectReference.Create(this));
     }
 
