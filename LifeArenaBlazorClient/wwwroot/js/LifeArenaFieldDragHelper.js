@@ -1,22 +1,19 @@
-﻿function makeCssClassDraggable(draggableCssClass) {
-    if (!draggableCssClass.startsWith("."))
-        draggableCssClass = "." + draggableCssClass
+﻿function makeLifeArenaFieldDraggable(targetClass, lifeArenaBodyComponent) {
+    if (!targetClass.startsWith("."))
+        targetClass = "." + targetClass
     
-    interact(draggableCssClass).draggable({
+    interact(targetClass).draggable({
         inertia: true,
         listeners: {
             move(event) {
                 let target = event.target
-                let x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx
-                let y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy
+                let x = (parseFloat(target.getAttribute('field-translate-x')) || 0) + event.dx
+                let y = (parseFloat(target.getAttribute('field-translate-y')) || 0) + event.dy
                 
-                target.style.transform = 'translate(' + x + 'px, ' + y + 'px)'
-                
-                target.setAttribute('data-x', x)
-                target.setAttribute('data-y', y)
+                lifeArenaBodyComponent.invokeMethod("SetFieldTranslate", x, y)
             }
         }
     })
     
-    interact(draggableCssClass).styleCursor(false)
+    interact(targetClass).styleCursor(false)
 }
