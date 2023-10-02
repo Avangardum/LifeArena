@@ -1,8 +1,8 @@
-﻿<div class="life-arena-cell @IsAliveClass"></div>
+﻿<div class="life-arena-cell @IsAliveCssClass"></div>
 
 @code
 {
-    private string IsAliveClass => IsAlive ? "life-arena-cell-alive" : "life-arena-cell-dead";
+    private string IsAliveCssClass => IsAlive ? "life-arena-cell-alive" : "life-arena-cell-dead";
     
     [Parameter]
     public bool IsAlive { get; set; }

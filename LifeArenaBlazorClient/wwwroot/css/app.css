@@ -108,9 +108,10 @@ a, .btn-link {
     top: 0;
     height: 80px;
     color: black;
+    z-index: 1;
 }
 
-.life-arena-field {
+.life-arena-body {
     background-color: #808080;
     position: fixed;
     left: 0;

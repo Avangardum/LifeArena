@@ -1,0 +1,39 @@
+﻿<div class="life-arena-body">
+    <div class="@LifeArenaFieldClass">
+        @for (int y = FieldHeight - 1; y >= 0; y--)
+        {
+            <div class="life-arena-row">
+                @for (int x = 0; x < FieldWidth; x++)
+                {
+                    <LifeArenaCell IsAlive="_livingCells[x, y]"/>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@code
+{
+    private const int FieldWidth = 100;
+    private const int FieldHeight = 100;
+    private const string LifeArenaFieldClass = "life-arena-field";
+
+    private bool[,] _livingCells = new bool[FieldWidth, FieldHeight];
+
+    public bool[,] LivingCells
+    {
+        set
+        {
+            _livingCells = value;
+            StateHasChanged();
+        }
+    }
+    
+    [Inject]
+    public required IJSRuntime JsRuntime { private get; set; }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        JsRuntime.InvokeVoidAsync("makeCssClassDraggable", LifeArenaFieldClass);
+    }
+}
