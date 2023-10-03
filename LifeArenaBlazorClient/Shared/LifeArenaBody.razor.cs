@@ -49,6 +49,11 @@ public partial class LifeArenaBody
         StateHasChanged();
     }
 
+    public void InvokeStateHasChanged()
+    {
+        StateHasChanged();
+    }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await JsRuntime.InvokeVoidAsync("makeLifeArenaFieldDraggable", LifeArenaBodyCssClass, 

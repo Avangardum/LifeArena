@@ -1,5 +1,4 @@
-﻿using Avangardum.LifeArena.Shared;
-using LifeArenaBlazorClient.Interfaces;
+﻿using LifeArenaBlazorClient.Interfaces;
 using LifeArenaBlazorClient.Shared;
 using Microsoft.AspNetCore.Components;
 
@@ -7,9 +6,10 @@ namespace LifeArenaBlazorClient.Pages;
 
 public partial class Index
 {
-    private static readonly TimeSpan MinDelayBetweenUpdates = TimeSpan.FromMilliseconds(100);
+    private static readonly TimeSpan MinDelayBetweenUpdates = TimeSpan.FromMilliseconds(200);
     private static readonly TimeSpan DelayBeforeFirstUpdate = TimeSpan.FromMilliseconds(10);
     
+    private LifeArenaHeader _lifeArenaHeader = null!;
     private LifeArenaBody _lifeArenaBody = null!;
     
     [Inject]
@@ -35,7 +35,12 @@ public partial class Index
     private async Task UpdateGameState()
     {
         var gameStateResponse = await GameService.GetGameStateAsync();
+
+        _lifeArenaHeader.TimeUntilNextGeneration = gameStateResponse.TimeUntilNextGeneration;
+        _lifeArenaHeader.NextGenerationInterval = gameStateResponse.NextGenerationInterval;
+        _lifeArenaHeader.InvokeStateHasChanged();
+        
         _lifeArenaBody.LivingCells = gameStateResponse.LivingCells;
-        StateHasChanged();
+        _lifeArenaBody.InvokeStateHasChanged();
     }
 }
