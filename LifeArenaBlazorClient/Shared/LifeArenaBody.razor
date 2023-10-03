@@ -1,7 +1,7 @@
-﻿<div class="@LifeArenaBodyCssClass" @onwheel="OnWheel"
-     field-translate-x="@_fieldTranslateX" field-translate-y="@_fieldTranslateY">
-    <div class="@LifeArenaFieldCssClass" 
-         style="transform: translate(@(_fieldTranslateX)px, @(_fieldTranslateY)px) scale(@_zoom)">
+﻿<div class="@LifeArenaBodyCssClass" @onwheel="OnWheel" @onmousemove="OnMouseMove"
+     field-translate-x="@_fieldTranslate.X" field-translate-y="@_fieldTranslate.Y">
+    <div class="@LifeArenaFieldCssClass" id="@LifeArenaFieldId" 
+         style="transform: translate(@(_fieldTranslate.X)px, @(_fieldTranslate.Y)px) scale(@_zoom)">
         @for (int y = FieldHeight - 1; y >= 0; y--)
         {
             <div class="life-arena-row">

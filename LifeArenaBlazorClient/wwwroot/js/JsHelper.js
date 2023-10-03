@@ -17,3 +17,7 @@
     
     interact(targetClass).styleCursor(false)
 }
+
+function getBoundingClientRect(elementId) {
+    return document.getElementById(elementId).getBoundingClientRect()
+}
