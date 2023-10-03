@@ -2,12 +2,12 @@
      field-translate-x="@_fieldTranslate.X" field-translate-y="@_fieldTranslate.Y">
     <div class="@LifeArenaFieldCssClass" id="@LifeArenaFieldId" 
          style="transform: translate(@(_fieldTranslate.X)px, @(_fieldTranslate.Y)px) scale(@_zoom)">
-        @for (int y = FieldHeight - 1; y >= 0; y--)
+        @for (int y = LivingCells.GetLength(1) - 1; y >= 0; y--)
         {
             <div class="life-arena-row">
-                @for (int x = 0; x < FieldWidth; x++)
+                @for (int x = 0; x < LivingCells.GetLength(0); x++)
                 {
-                    <LifeArenaCell IsAlive="_livingCells[x, y]"/>
+                    <LifeArenaCell IsAlive="LivingCells[x, y]"/>
                 }
             </div>
         }

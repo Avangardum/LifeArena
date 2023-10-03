@@ -9,8 +9,6 @@ namespace LifeArenaBlazorClient.Shared;
 
 public partial class LifeArenaBody
 {
-    private const int FieldWidth = 100;
-    private const int FieldHeight = 100;
     private const double MinZoom = 0.1;
     private const double MaxZoom = 2;
     private const double MaxToMinZoomRatio = MaxZoom / MinZoom;
@@ -19,7 +17,6 @@ public partial class LifeArenaBody
     private const string LifeArenaBodyCssClass = "life-arena-body";
     private const string LifeArenaFieldId = "life-arena-field";
 
-    private bool[,] _livingCells = new bool[FieldWidth, FieldHeight];
     private double _zoomPercentage = ZoomPercentageFromZoom(1);
     private double _zoom = 1;
     private Vector2 _fieldTranslate;
@@ -27,16 +24,9 @@ public partial class LifeArenaBody
 
     public event EventHandler? ZoomChanged;
 
-    public bool[,] LivingCells
-    {
-        set
-        {
-            _livingCells = value;
-            StateHasChanged();
-        }
-    }
+    public required bool[,] LivingCells { get; set; } = new bool[0, 0];
 
-    public double ZoomPercentage
+    private double ZoomPercentage
     {
         get => _zoomPercentage;
         set

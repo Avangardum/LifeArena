@@ -23,6 +23,7 @@ void ConfigureServices()
     ConfigureForwardedHeaders();
     ConfigureSettings();
     ConfigureCustomServices();
+    ConfigureCors();
 
     void ConfigureForwardedHeaders()
     {
@@ -32,7 +33,7 @@ void ConfigureServices()
                 ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
         });
     }
-    
+
     void ConfigureSettings()
     {
         var configuration = builder.Configuration;
@@ -55,6 +56,17 @@ void ConfigureServices()
         services.AddSingleton<IUserActivityManager, UserActivityManager>();
         services.AddSingleton<IUserActivityRepository, UserActivityRepository>();
     }
+
+    void ConfigureCors()
+    {
+        services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(policy =>
+            {
+                policy.AllowAnyOrigin();
+            });
+        });
+    }
 }
 
 void ConfigureMiddlewarePipeline()
@@ -66,6 +78,7 @@ void ConfigureMiddlewarePipeline()
     }
     app.UseForwardedHeaders();
     app.UseHttpsRedirection();
+    app.UseCors();
     app.UseAuthorization();
     app.UseStaticFiles(new StaticFileOptions { ServeUnknownFileTypes = true });
     app.MapControllers();
