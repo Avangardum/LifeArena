@@ -109,6 +109,9 @@ a, .btn-link {
     height: 80px;
     color: black;
     z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    padding: 0 10px;
 }
 
 .life-arena-body {
@@ -139,4 +142,25 @@ a, .btn-link {
 
 .life-arena-cell-alive {
     background-color: white;
+}
+
+.button {
+    border: solid 1px black;
+}
+
+.square-button {
+    width: 60px;
+    height: 60px;
+    border-radius: 10%;
+    font-size: 40px;
+}
+
+.header-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-buttons-section {
+    
 }

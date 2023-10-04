@@ -6,7 +6,7 @@ namespace LifeArenaBlazorClient.Services;
 
 public class GameService : IGameService
 {
-    private const string GameApiUrl = "https://localhost:7206/Api/Game/";
+    private const string GameApiUrl = "https://lifearena.avangardum.net/Api/Game/";
     
     private readonly HttpClient _httpClient;
     private readonly ILivingCellsArrayPreserializer _livingCellsArrayPreserializer;
