@@ -36,8 +36,9 @@ public partial class Index
     {
         var gameStateResponse = await GameService.GetGameStateAsync();
 
-        _lifeArenaHeader.TimeUntilNextGeneration = gameStateResponse.TimeUntilNextGeneration;
         _lifeArenaHeader.NextGenerationInterval = gameStateResponse.NextGenerationInterval;
+        _lifeArenaHeader.TimeUntilNextGeneration = gameStateResponse.TimeUntilNextGeneration;
+        _lifeArenaHeader.Generation = gameStateResponse.Generation;
         _lifeArenaHeader.InvokeStateHasChanged();
         
         _lifeArenaBody.LivingCells = gameStateResponse.LivingCells;

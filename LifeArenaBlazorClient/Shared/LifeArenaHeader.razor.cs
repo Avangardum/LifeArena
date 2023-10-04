@@ -14,6 +14,9 @@ public partial class LifeArenaHeader
     private Stopwatch _stopwatch = new();
     private TimeSpan _timeUntilNextGeneration;
 
+    public TimeSpan NextGenerationInterval { get; set; }
+    public int Generation { get; set; }
+
     public TimeSpan TimeUntilNextGeneration
     {
         get => _timeUntilNextGeneration;
@@ -26,8 +29,6 @@ public partial class LifeArenaHeader
         }
     }
 
-    public TimeSpan NextGenerationInterval { get; set; }
-    
     public void InvokeStateHasChanged() => StateHasChanged();
 
     protected override async Task OnInitializedAsync()

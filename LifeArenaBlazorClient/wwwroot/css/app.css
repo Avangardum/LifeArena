@@ -161,6 +161,10 @@ a, .btn-link {
     gap: 10px;
 }
 
-.header-buttons-section {
-    
+.generation-icon {
+    font-size: 40px;
+}
+
+.generation-text {
+    font-size: 40px;
 }
