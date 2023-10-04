@@ -11,6 +11,9 @@ public partial class LifeArenaHeader
     /// </summary>
     private static readonly TimeSpan MinTimeToAllowIncreasingTimer = TimeSpan.FromSeconds(1);
     
+    private const string White = "white";
+    private const string Black = "black";
+    
     private Stopwatch _stopwatch = new();
     private TimeSpan _timeUntilNextGeneration;
 
@@ -26,6 +29,17 @@ public partial class LifeArenaHeader
             if (TimeSpan.Zero < deltaTime && deltaTime < MinTimeToAllowIncreasingTimer) return;
             _timeUntilNextGeneration = value;
             if (_timeUntilNextGeneration < TimeSpan.Zero) _timeUntilNextGeneration = TimeSpan.Zero;
+        }
+    }
+
+    private string TimeUntilNextGenerationClockStyle
+    {
+        get
+        {
+            var firstColor = Generation % 2 == 0 ? White : Black;
+            var secondColor = Generation % 2 == 0 ? Black : White;
+            var firstColorPercentage = TimeUntilNextGeneration / NextGenerationInterval;
+            return $"background: conic-gradient({firstColor} {1 - firstColorPercentage:P}, {secondColor} 0)";
         }
     }
 

@@ -168,3 +168,15 @@ a, .btn-link {
 .generation-text {
     font-size: 40px;
 }
+
+.time-until-next-generation-clock {
+    background-color: white;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    border: solid 3px black;
+}
+
+.time-until-next-generation-text {
+    font-size: 40px;
+}
