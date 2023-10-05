@@ -63,9 +63,4 @@ public partial class TimeUntilNextGenerationHeaderSection
         }
         // ReSharper disable once FunctionNeverReturns
     }
-
-    public TimeUntilNextGenerationHeaderSection()
-    {
-        Console.WriteLine("TimeUntilNextGenerationHeaderSection constructor");
-    }
 }

@@ -19,7 +19,19 @@ public partial class Index
     {
         await UpdateGameStateLoop();
     }
-    
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender) OnAfterFirstRender();
+    }
+
+    private void OnAfterFirstRender()
+    {
+        _lifeArenaBody.ZoomChangedWithWheel += (_, _) => SetHeaderZoomPercentageToBodyZoomPercentage();
+        _lifeArenaHeader.ZoomChangedWithHeader += (_, _) => SetBodyZoomPercentageToHeaderZoomPercentage();
+        SetHeaderZoomPercentageToBodyZoomPercentage();
+    }
+
     private async Task UpdateGameStateLoop()
     {
         await Task.Delay(DelayBeforeFirstUpdate);
@@ -44,5 +56,15 @@ public partial class Index
         
         _lifeArenaBody.LivingCells = gameState.LivingCells;
         _lifeArenaBody.InvokeStateHasChanged();
+    }
+
+    private void SetHeaderZoomPercentageToBodyZoomPercentage()
+    {
+        _lifeArenaHeader.ZoomPercentage = _lifeArenaBody.ZoomPercentage;
+    }
+
+    private void SetBodyZoomPercentageToHeaderZoomPercentage()
+    {
+        _lifeArenaBody.SetZoomPercentageWithHeaderAsync(_lifeArenaHeader.ZoomPercentage);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Numerics;
 using System.Text.Json;
+using LifeArenaBlazorClient.Data;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
@@ -16,28 +17,17 @@ public partial class LifeArenaBody
     private const string LifeArenaFieldCssClass = "life-arena-field";
     private const string LifeArenaBodyCssClass = "life-arena-body";
     private const string LifeArenaFieldId = "life-arena-field";
+    private const string LifeArenaBodyId = "life-arena-body";
 
-    private double _zoomPercentage = ZoomPercentageFromZoom(1);
     private double _zoom = 1;
     private Vector2 _fieldTranslate;
     private Vector2 _mousePosition;
 
-    public event EventHandler? ZoomChanged;
+    public event EventHandler? ZoomChangedWithWheel;
+    
+    public double ZoomPercentage { get; private set; } = ZoomPercentageFromZoom(1);
 
-    public required bool[,] LivingCells { get; set; } = new bool[0, 0];
-
-    private double ZoomPercentage
-    {
-        get => _zoomPercentage;
-        set
-        {
-            // ReSharper disable once CompareOfFloatsByEqualityOperator
-            if (_zoomPercentage == value) return;
-            _zoomPercentage = Math.Clamp(value, 0, 1);
-            SetZoomAsync(ZoomFromZoomPercentage(_zoomPercentage));
-            ZoomChanged?.Invoke(this, EventArgs.Empty);
-        }
-    }
+    public bool[,] LivingCells { get; set; } = new bool[0, 0];
 
     [Inject]
     public required IJSRuntime JsRuntime { private get; set; }
@@ -55,6 +45,11 @@ public partial class LifeArenaBody
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender) await OnAfterFirstRenderAsync();
+    }
+
+    private async Task OnAfterFirstRenderAsync()
     {
         await JsRuntime.InvokeVoidAsync("makeLifeArenaFieldDraggable", LifeArenaBodyCssClass, 
             DotNetObjectReference.Create(this));
@@ -74,7 +69,21 @@ public partial class LifeArenaBody
 
     private void OnWheel(WheelEventArgs e)
     {
-        ZoomPercentage -= e.DeltaY * WheelZoomSpeed;
+        ChangeZoomPercentageWithWheelAsync(-e.DeltaY * WheelZoomSpeed);
+    }
+
+    private async void ChangeZoomPercentageWithWheelAsync(double delta)
+    {
+        ZoomPercentage = Math.Clamp(ZoomPercentage + delta, 0, 1);
+        await SetZoomAsync(ZoomFromZoomPercentage(ZoomPercentage), _mousePosition);
+        ZoomChangedWithWheel?.Invoke(this, EventArgs.Empty);
+    }
+
+    public async void SetZoomPercentageWithHeaderAsync(double value)
+    {
+        ZoomPercentage = Math.Clamp(value, 0, 1);
+        var bodyCenter = await GetBodyCenterAsync();
+        await SetZoomAsync(ZoomFromZoomPercentage(ZoomPercentage), bodyCenter);
     }
 
     private void OnMouseMove(MouseEventArgs e)
@@ -82,7 +91,7 @@ public partial class LifeArenaBody
         _mousePosition = new Vector2((float)e.ClientX, (float)e.ClientY);
     }
 
-    private async void SetZoomAsync(double value)
+    private async Task SetZoomAsync(double value, Vector2 focusPosition)
     {
         // Focus is the object that should remain over same position in the field after zooming (mouse or screen center).
         // Relative focus position is the position of the focus in the coordinate system of the field.
@@ -91,7 +100,6 @@ public partial class LifeArenaBody
         // Normalized relative focus position = relative focus position / zoom.
         // Normalized relative focus position should remain the same after zooming.
         
-        var focusPosition = _mousePosition;
         var oldFieldPosition = await GetFieldPositionAsync();
         var oldRelativeFocusPosition = focusPosition - oldFieldPosition;
         var oldZoom = (float)_zoom;
@@ -111,10 +119,20 @@ public partial class LifeArenaBody
 
     private async Task<Vector2> GetFieldPositionAsync()
     {
+        var boundingClientRect = await GetBoundingClientRectAsync(LifeArenaFieldId);
+        return new Vector2((float)boundingClientRect.X, (float)boundingClientRect.Y);
+    }
+
+    private async Task<Vector2> GetBodyCenterAsync()
+    {
+        var boundingClientRect = await GetBoundingClientRectAsync(LifeArenaBodyId);
+        return new Vector2((float)boundingClientRect.Width / 2, (float)boundingClientRect.Height / 2);
+    }
+
+    private async Task<DomRect> GetBoundingClientRectAsync(string elementId)
+    {
         var boundingClientRect =
-            await JsRuntime.InvokeAsync<JsonElement>("getBoundingClientRect", LifeArenaFieldId);
-        var x = boundingClientRect.GetProperty("left").GetSingle();
-        var y = boundingClientRect.GetProperty("top").GetSingle();
-        return new Vector2(x, y);
+            await JsRuntime.InvokeAsync<DomRect>("getBoundingClientRect", elementId);
+        return boundingClientRect;
     }
 }
