@@ -34,14 +34,15 @@ public partial class Index
     
     private async Task UpdateGameState()
     {
-        var gameStateResponse = await GameService.GetGameStateAsync();
+        var gameState = await GameService.GetGameStateAsync();
 
-        _lifeArenaHeader.NextGenerationInterval = gameStateResponse.NextGenerationInterval;
-        _lifeArenaHeader.TimeUntilNextGeneration = gameStateResponse.TimeUntilNextGeneration;
-        _lifeArenaHeader.Generation = gameStateResponse.Generation;
+        _lifeArenaHeader.NextGenerationInterval = gameState.NextGenerationInterval;
+        _lifeArenaHeader.TimeUntilNextGeneration = gameState.TimeUntilNextGeneration;
+        _lifeArenaHeader.Generation = gameState.Generation;
+        _lifeArenaHeader.CellsLeft = gameState.CellsLeft;
         _lifeArenaHeader.InvokeStateHasChanged();
         
-        _lifeArenaBody.LivingCells = gameStateResponse.LivingCells;
+        _lifeArenaBody.LivingCells = gameState.LivingCells;
         _lifeArenaBody.InvokeStateHasChanged();
     }
 }

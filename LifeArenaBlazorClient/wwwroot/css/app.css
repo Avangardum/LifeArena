@@ -180,3 +180,15 @@ a, .btn-link {
 .time-until-next-generation-text {
     font-size: 40px;
 }
+
+.cells-left-icon {
+    width: 40px;
+    height: 40px;
+    border: solid 3px black;
+}
+
+.cells-left-text {
+    font-size: 40px;
+}
+
+

@@ -19,6 +19,7 @@ public partial class LifeArenaHeader
 
     public TimeSpan NextGenerationInterval { get; set; }
     public int Generation { get; set; }
+    public int CellsLeft { get; set; }
 
     public TimeSpan TimeUntilNextGeneration
     {
