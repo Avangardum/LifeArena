@@ -1,28 +1,8 @@
 ﻿<div class="life-arena-header">
-    <div class="header-section left-buttons-header-section">
-        <button class="button square-button"><i class="bi bi-question"></i></button>
-        <a href="https://discord.com/invite/sq5AGyKntC" target="_blank">
-            <button class="button square-button"><i class="bi bi-discord"></i></button>
-        </a>
-        <a href="https://github.com/Avangardum/LifeArena" target="_blank">
-            <button class="button square-button"><i class="bi bi-github"></i></button>
-        </a>
-    </div>
-    <div class="header-section generation-header-section">
-        <i class="bi bi-hourglass-split generation-icon"></i>
-        <span class="generation-text">@Generation</span>
-    </div>
-    <div class="header-section time-until-next-generation-header-section">
-        <div class="time-until-next-generation-text">@TimeUntilNextGeneration.TotalSeconds.ToString("0.0")</div>
-        <span class="time-until-next-generation-clock" style="@TimeUntilNextGenerationClockStyle"></span>
-    </div>
-    <div class="header-section cells-left-header-section">
-        <span class="cells-left-icon"></span>
-        <span class="cells-left-text">@CellsLeft</span>
-    </div>
-    <div class="header-section zoom-header-section">
-        <button class="zoom-button"><span class="zoom-button-text-minus">-</span></button>
-        <input class="zoom-slider" type="range" min="0" max="100" value="30"/>
-        <button class="zoom-button"><span class="zoom-button-text-plus">+</span></button>
-    </div>
+    <SquareButtonsHeaderSection/>
+    <GenerationHeaderSection Generation="Generation"/>
+    <TimeUntilNextGenerationHeaderSection @ref="_timeUntilNextGenerationHeaderSection" 
+                                          Generation="Generation" NextGenerationInterval="NextGenerationInterval"/>
+    <CellsLeftHeaderSection CellsLeft="CellsLeft"/>
+    <ZoomHeaderSection/>
 </div>
