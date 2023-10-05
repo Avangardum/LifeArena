@@ -160,7 +160,10 @@ a, .btn-link {
     display: flex;
     align-items: center;
     gap: 10px;
-    border: solid 1px black;
+}
+
+.generation-header-section {
+    padding-right: 10px;
 }
 
 .generation-icon {
@@ -230,4 +233,9 @@ a, .btn-link {
 .zoom-header-section {
     display: flex;
     justify-content: right;
+}
+
+.time-until-next-generation-header-section {
+    display: flex;
+    justify-content: center;
 }
