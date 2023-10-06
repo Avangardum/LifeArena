@@ -18,10 +18,12 @@ public partial class LifeArenaBody
     private const string LifeArenaBodyCssClass = "life-arena-body";
     private const string LifeArenaFieldId = "life-arena-field";
     private const string LifeArenaBodyId = "life-arena-body";
+    private static readonly TimeSpan ZoomChangeCycleInterval = TimeSpan.FromMilliseconds(50);
 
     private double _zoom = 1;
     private Vector2 _fieldTranslate;
     private Vector2 _mousePosition;
+    private double _wheelZoomAccumulatedDelta;
 
     public event EventHandler? ZoomChangedWithWheel;
     
@@ -53,6 +55,19 @@ public partial class LifeArenaBody
     {
         await JsRuntime.InvokeVoidAsync("makeLifeArenaFieldDraggable", LifeArenaBodyCssClass, 
             DotNetObjectReference.Create(this));
+        await ZoomChangeCycleAsync();
+    }
+
+    private async Task ZoomChangeCycleAsync()
+    {
+        while (true)
+        {
+            await Task.Delay(ZoomChangeCycleInterval);
+            if (_wheelZoomAccumulatedDelta == 0) continue;
+            ChangeZoomPercentageWithWheelAsync(_wheelZoomAccumulatedDelta);
+            _wheelZoomAccumulatedDelta = 0;
+        }
+        // ReSharper disable once FunctionNeverReturns
     }
 
     private static double ZoomFromZoomPercentage(double zoomPercentage)
@@ -69,7 +84,7 @@ public partial class LifeArenaBody
 
     private void OnWheel(WheelEventArgs e)
     {
-        ChangeZoomPercentageWithWheelAsync(-e.DeltaY * WheelZoomSpeed);
+        _wheelZoomAccumulatedDelta -= e.DeltaY * WheelZoomSpeed;
     }
 
     private async void ChangeZoomPercentageWithWheelAsync(double delta)
