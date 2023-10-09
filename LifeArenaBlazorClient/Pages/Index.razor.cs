@@ -1,4 +1,6 @@
-﻿using LifeArenaBlazorClient.Interfaces;
+﻿using System.Diagnostics;
+using Avangardum.LifeArena.Shared;
+using LifeArenaBlazorClient.Interfaces;
 using LifeArenaBlazorClient.Shared;
 using Microsoft.AspNetCore.Components;
 
@@ -8,11 +10,15 @@ public partial class Index
 {
     private static readonly TimeSpan MinDelayBetweenUpdates = TimeSpan.FromMilliseconds(200);
     private static readonly TimeSpan DelayBeforeFirstUpdate = TimeSpan.FromMilliseconds(10);
+    private static readonly TimeSpan ConnectionErrorTimeToShowError = TimeSpan.FromSeconds(3);
+
+    private readonly Stopwatch _connectionErrorStopwatch = new();
     
     private LifeArenaHeader _lifeArenaHeader = null!;
     private LifeArenaBody _lifeArenaBody = null!;
     private HelpWindow _helpWindow = null!;
-    
+    private ConnectionErrorWindow _connectionErrorWindow = null!;
+
     [Inject]
     public required IGameService GameService { private get; set; }
     
@@ -54,8 +60,24 @@ public partial class Index
     
     private async Task UpdateGameState()
     {
-        var gameState = await GameService.GetGameStateAsync();
+        GameState gameState;
+        try
+        {
+            gameState = await GameService.GetGameStateAsync();
+        }
+        catch (HttpRequestException)
+        {
+            _connectionErrorStopwatch.Start();
+            Console.WriteLine(_connectionErrorStopwatch.Elapsed);
+            if (_connectionErrorStopwatch.Elapsed > ConnectionErrorTimeToShowError)
+            {
+                _connectionErrorWindow.IsVisible = true;
+            }
+            return;
+        }
 
+        _connectionErrorStopwatch.Reset();
+        _connectionErrorWindow.IsVisible = false;
         _lifeArenaHeader.NextGenerationInterval = gameState.NextGenerationInterval;
         _lifeArenaHeader.TimeUntilNextGeneration = gameState.TimeUntilNextGeneration;
         _lifeArenaHeader.Generation = gameState.Generation;

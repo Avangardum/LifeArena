@@ -268,3 +268,24 @@ a, .btn-link {
     top: 10px;
     right: 10px;
 }
+
+.connection-error-window {
+    position: fixed;
+    background-color: white;
+    border: solid 1px black;
+    width: 360px;
+    height: 160px;
+    top: 50%;
+    left: 50%;
+    margin-left: -180px;
+    margin-top: -40px;
+    border-radius: 5px;
+    padding: 10px;
+    text-align: center;
+    vertical-align: center;
+    line-height: 140px;
+}
+
+.connection-error-text {
+    font-size: 30px;
+}
