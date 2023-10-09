@@ -11,6 +11,7 @@ public partial class Index
     
     private LifeArenaHeader _lifeArenaHeader = null!;
     private LifeArenaBody _lifeArenaBody = null!;
+    private HelpWindow _helpWindow = null!;
     
     [Inject]
     public required IGameService GameService { private get; set; }
@@ -30,6 +31,13 @@ public partial class Index
         _lifeArenaBody.ZoomChangedWithWheel += (_, _) => SetHeaderZoomPercentageToBodyZoomPercentage();
         _lifeArenaHeader.ZoomChangedWithHeader += (_, _) => SetBodyZoomPercentageToHeaderZoomPercentage();
         SetHeaderZoomPercentageToBodyZoomPercentage();
+
+        _lifeArenaHeader.HelpClicked += OnHelpClicked;
+    }
+
+    private void OnHelpClicked(object? sender, EventArgs e)
+    {
+        _helpWindow.IsVisible = true;
     }
 
     private async Task UpdateGameStateLoop()

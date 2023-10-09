@@ -6,8 +6,10 @@ public partial class LifeArenaHeader
 {
     private TimeUntilNextGenerationHeaderSection _timeUntilNextGenerationHeaderSection = null!;
     private ZoomHeaderSection _zoomHeaderSection = null!;
+    private SquareButtonsHeaderSection _squareButtonsHeaderSection = null!;
     
     public event EventHandler? ZoomChangedWithHeader;
+    public event EventHandler? HelpClicked;
     
     public TimeSpan NextGenerationInterval { get; set; }
     public int Generation { get; set; }
@@ -34,10 +36,16 @@ public partial class LifeArenaHeader
     private void OnAfterFirstRender()
     {
         _zoomHeaderSection.ZoomChangedWithHeader += OnZoomHeaderSectionOnZoomChangedWithHeader;
+        _squareButtonsHeaderSection.HelpClicked += OnSquareButtonsHeaderSectionOnHelpClicked;
     }
 
     private void OnZoomHeaderSectionOnZoomChangedWithHeader(object? sender, EventArgs e)
     {
         ZoomChangedWithHeader?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void OnSquareButtonsHeaderSectionOnHelpClicked(object? sender, EventArgs e)
+    {
+        HelpClicked?.Invoke(this, EventArgs.Empty);
     }
 }

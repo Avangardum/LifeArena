@@ -1,0 +1,21 @@
+﻿<div class="help-window" style="visibility: @(IsVisible ? "visible" : "hidden")">
+    <button class="square-button close-button" @onclick="OnCloseClick"><i class="bi bi-x"></i></button>
+    <h1 class="help-header">Welcome to Life Arena</h1>
+    <div class="help-text">
+        In this game you play on a grid shared between all players.<br/><br/>
+
+        The grid consists of living (white) and dead (black) cells.<br/><br/>
+
+        You can turn some dead cells into living cells by clicking of them (amount per generation is limited and
+        is shown in the top right).<br/><br/>
+
+        Once in a while the game progresses to the next generation (the current generation number is shown in the top
+        left) by the following rules:<br/>
+        <ul>
+            <li>Every dead cell surrounded by 3 living cells comes to life</li>
+            <li>Every living cell surrounded by less than 2 or more than 3 living cells dies</li>
+        </ul><br/>
+
+        There is no goal, try creating something interesting, interact with other players and have fun. Good luck!
+    </div>
+</div>
