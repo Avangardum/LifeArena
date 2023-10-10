@@ -1,4 +1,4 @@
-﻿<div class="life-arena-cell @IsAliveCssClass"></div>
+﻿<div class="life-arena-cell @IsAliveCssClass" @onclick="() => OnClick.InvokeAsync()"></div>
 
 @code
 {
@@ -6,4 +6,7 @@
     
     [Parameter]
     public bool IsAlive { get; set; }
+    
+    [Parameter]
+    public EventCallback OnClick { get; set; }
 }

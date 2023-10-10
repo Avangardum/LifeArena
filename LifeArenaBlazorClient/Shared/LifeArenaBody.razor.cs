@@ -26,6 +26,9 @@ public partial class LifeArenaBody
     private double _wheelZoomAccumulatedDelta;
 
     public event EventHandler? ZoomChangedWithWheel;
+
+    [Parameter] 
+    public EventCallback<CellClickedArgs> CellClicked { get; set; }
     
     public double ZoomPercentage { get; private set; } = ZoomPercentageFromZoom(1);
 
@@ -149,5 +152,10 @@ public partial class LifeArenaBody
         var boundingClientRect =
             await JsRuntime.InvokeAsync<DomRect>("getBoundingClientRect", elementId);
         return boundingClientRect;
+    }
+
+    private async Task OnCellClickedAsync(CellClickedArgs e)
+    {
+        await CellClicked.InvokeAsync(e);
     }
 }

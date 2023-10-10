@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Avangardum.LifeArena.Shared;
+using LifeArenaBlazorClient.Data;
 using LifeArenaBlazorClient.Interfaces;
 using LifeArenaBlazorClient.Shared;
 using Microsoft.AspNetCore.Components;
@@ -68,7 +69,6 @@ public partial class Index
         catch (HttpRequestException)
         {
             _connectionErrorStopwatch.Start();
-            Console.WriteLine(_connectionErrorStopwatch.Elapsed);
             if (_connectionErrorStopwatch.Elapsed > ConnectionErrorTimeToShowError)
             {
                 _connectionErrorWindow.IsVisible = true;
@@ -76,6 +76,11 @@ public partial class Index
             return;
         }
 
+        SetGameState(gameState);
+    }
+
+    private void SetGameState(GameState gameState)
+    {
         _connectionErrorStopwatch.Reset();
         _connectionErrorWindow.IsVisible = false;
         _lifeArenaHeader.NextGenerationInterval = gameState.NextGenerationInterval;
@@ -83,7 +88,7 @@ public partial class Index
         _lifeArenaHeader.Generation = gameState.Generation;
         _lifeArenaHeader.CellsLeft = gameState.CellsLeft;
         _lifeArenaHeader.InvokeStateHasChanged();
-        
+
         _lifeArenaBody.LivingCells = gameState.LivingCells;
         _lifeArenaBody.InvokeStateHasChanged();
     }
@@ -96,5 +101,11 @@ public partial class Index
     private void SetBodyZoomPercentageToHeaderZoomPercentage()
     {
         _lifeArenaBody.SetZoomPercentageWithHeaderAsync(_lifeArenaHeader.ZoomPercentage);
+    }
+
+    private async Task OnCellClickedAsync(CellClickedArgs e)
+    {
+        var gameState = await GameService.AddCell(e.X, e.Y);
+        SetGameState(gameState);
     }
 }

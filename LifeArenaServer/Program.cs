@@ -63,7 +63,9 @@ void ConfigureServices()
         {
             options.AddDefaultPolicy(policy =>
             {
-                policy.AllowAnyOrigin();
+                policy
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod();
             });
         });
     }
