@@ -9,7 +9,10 @@
                 @for (int x = 0; x < LivingCells.GetLength(0); x++)
                 {
                     var cellClickedArgs = new CellClickedArgs(x, y);
-                    <LifeArenaCell IsAlive="LivingCells[x, y]" OnClick="() => OnCellClickedAsync(cellClickedArgs)"/>
+                    var lockedX = x;
+                    var lockedY = y;
+                    <LifeArenaCell IsAlive="LivingCells[x, y]" OnClick="() => OnCellClickedAsync(cellClickedArgs)" 
+                        @key="@($"Cell({lockedX};{lockedY})")"/>
                 }
             </div>
         }
