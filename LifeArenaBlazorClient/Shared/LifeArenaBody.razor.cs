@@ -56,7 +56,7 @@ public partial class LifeArenaBody
 
     private async Task OnAfterFirstRenderAsync()
     {
-        await JsRuntime.InvokeVoidAsync("makeLifeArenaFieldDraggable", LifeArenaBodyCssClass, 
+        await ((JSInProcessRuntime)JsRuntime).InvokeVoidAsync("makeLifeArenaFieldDraggable", LifeArenaBodyCssClass, 
             DotNetObjectReference.Create(this));
         await ZoomChangeCycleAsync();
     }
@@ -150,7 +150,7 @@ public partial class LifeArenaBody
     private async Task<DomRect> GetBoundingClientRectAsync(string elementId)
     {
         var boundingClientRect =
-            await JsRuntime.InvokeAsync<DomRect>("getBoundingClientRect", elementId);
+            await ((JSInProcessRuntime)JsRuntime).InvokeAsync<DomRect>("getBoundingClientRect", elementId);
         return boundingClientRect;
     }
 
