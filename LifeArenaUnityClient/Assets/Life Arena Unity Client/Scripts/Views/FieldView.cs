@@ -14,16 +14,13 @@ namespace Avangardum.LifeArena.UnityClient.Views
         private const float MinZoomToShowBorder = 0.3f;
         private const float CellSize = 50;
 
-        // When above 1, zoom will change faster when close to the max value.
-        private const float SmoothZoomFactor = 2f;
-        
         [SerializeField] private GameObject _cellViewPrefab;
         
         private CellView[,] _cells;
         
         public event EventHandler<CellClickedEventArgs> CellClicked;
         public event EventHandler<ZoomChangedEventArgs> ZoomChanged;
-        
+
         public bool[,] LivingCells
         {
             set
@@ -50,8 +47,10 @@ namespace Avangardum.LifeArena.UnityClient.Views
                 Zoom = ZoomPercentageToZoom(clampedValue);
             }
         }
-
+        
         public ZoomFocusPointMode ZoomFocusPointMode { private get; set; }
+        
+        private float MaxToMinZoomRatio => MaxZoom / MinZoom;
 
         private float Zoom
         {
@@ -171,13 +170,13 @@ namespace Avangardum.LifeArena.UnityClient.Views
         private float ZoomPercentageToZoom(float zoomPercentage)
         {
             Assert.IsTrue(zoomPercentage is >= 0 and <= 1);
-            return MinZoom + Mathf.Pow(zoomPercentage, SmoothZoomFactor) * (MaxZoom - MinZoom);
+            return (float)(MinZoom * Math.Pow(MaxToMinZoomRatio, zoomPercentage));
         }
         
         private float ZoomToZoomPercentage(float zoom)
         {
             Assert.IsTrue(zoom is >= MinZoom and <= MaxZoom);
-            return Mathf.Pow((zoom - MinZoom) / (MaxZoom - MinZoom), 1 / SmoothZoomFactor);
+            return (float)Math.Log(zoom / MinZoom, MaxToMinZoomRatio);
         }
         
         private void SetCellBorderVisibility()
