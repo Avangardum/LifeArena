@@ -883,7 +883,7 @@ PrefabInstance:
         is limited and is shown in the top right).\n\nOnce in a while the game progresses
         to the next generation (the current generation number is shown in the top
         left) by the following rules:\n- Every dead cell surrounded by 3 living cells
-        comes to life\n- Every living cell surronded by less than 2 or more than
+        comes to life\n- Every living cell surrounded by less than 2 or more than
         3 living cells dies\n\nThere is no goal, try creating something interesting,
         interact with other players and have fun. Good luck!"
       objectReference: {fileID: 0}
